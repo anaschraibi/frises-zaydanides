@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frise II — Abdelmalik &amp; la Bataille des Trois Rois · 1557–1603</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{background:#080b10;color:#c8d8e8;font-family:'Crimson Text',Georgia,serif;min-height:100vh}
+:root{
+  --bg:#080b10;--panel:#0d1219;--panel2:#111822;
+  --border:#1a2333;--border2:#2a3d58;
+  --acc:#4a8fc8;--acc-d:#2a5080;--acc-f:#0a1828;--acc-b:#78b8e8;
+  --text:#c8d8e8;--text-d:#607888;--text-f:#253040;
+  --c-zay:#2a9060;--c-abd:#1e6ea8;--c-ott:#8c1c2e;
+  --c-alg:#a83030;--c-esp:#b07c20;--c-por:#7a5010;
+  --c-fra:#285498;--c-eng:#4040a0;--c-fig:#9050b0;
+  --c-pt:#206090;--c-it:#a84020;
+  --lw:148px;--pyr:22;
+}
+
+.ph{background:linear-gradient(180deg,rgba(74,143,200,.08) 0%,transparent 100%);border-bottom:1px solid var(--border2);padding:22px 28px 16px}
+.ph-top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.ph h1{font-family:'Cinzel',serif;font-size:1.35rem;font-weight:900;color:var(--acc);letter-spacing:.06em;text-transform:uppercase}
+.ph-num{font-family:'Cinzel',serif;font-size:.9rem;color:var(--acc-d);font-weight:400}
+.ph-tag{font-style:italic;color:var(--text-d);font-size:.9rem;margin-top:5px}
+.ph-note{font-size:.78rem;color:var(--text-f);margin-top:3px;font-style:italic}
+.ph-link{font-family:'Cinzel',serif;font-size:.62rem;color:var(--acc-d);text-decoration:none;margin-top:8px;display:inline-block;letter-spacing:.08em;transition:color .18s}
+.ph-link:hover{color:var(--acc)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px}
+.li{display:flex;align-items:center;gap:6px;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;color:var(--text-d)}
+.ls{display:inline-block;width:20px;height:8px;border-radius:2px;border:1px solid rgba(255,255,255,.1)}
+
+.tlw{overflow-x:auto;overflow-y:visible;cursor:default;-webkit-overflow-scrolling:touch;background:var(--bg)}
+.tlw::-webkit-scrollbar{height:5px}
+.tlw::-webkit-scrollbar-track{background:var(--bg)}
+.tlw::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.tlw::-webkit-scrollbar-thumb:hover{background:var(--acc-d)}
+.tli{position:relative}
+
+.row{display:flex;border-bottom:1px solid var(--border)}
+.row:last-child{border-bottom:none}
+.rl{width:var(--lw);min-width:var(--lw);position:sticky;left:0;z-index:20;background:var(--panel);border-right:1px solid var(--border2);display:flex;align-items:center;padding:0 10px 0 16px}
+.rlt{font-family:'Cinzel',serif;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-d);line-height:1.4}
+.rc{position:relative;overflow:visible}
+
+.ax-row .rl{background:var(--panel)}
+.ax-row .rc{height:44px;background:var(--panel);border-bottom:2px solid var(--border2)}
+.ym{position:absolute;top:0;display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.ym.dec .yt{height:18px;width:1px;background:var(--border2);margin-top:6px}
+.ym.fiv .yt{height:11px;width:1px;background:var(--border);margin-top:6px}
+.ym.sin .yt{height:6px;width:1px;background:var(--border);margin-top:6px}
+.yl{font-family:'Cinzel',serif;font-size:.58rem;color:var(--acc-d);margin-top:2px;letter-spacing:.03em}
+
+.rb{position:absolute;border-radius:3px;overflow:hidden;display:flex;align-items:center;padding:0 7px;cursor:pointer;transition:filter .18s,transform .15s,box-shadow .18s;border-top:1px solid rgba(255,255,255,.12);border-left:1px solid rgba(255,255,255,.08);border-right:1px solid rgba(0,0,0,.3);border-bottom:1px solid rgba(0,0,0,.4);z-index:5}
+.rb:hover{filter:brightness(1.38);transform:translateY(-2px);z-index:25;box-shadow:0 6px 22px rgba(0,0,0,.7)}
+.rbl{font-family:'Cinzel',serif;font-size:.58rem;font-weight:600;letter-spacing:.04em;color:rgba(255,255,255,.92);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+
+.evl{position:absolute;top:0;pointer-events:none;z-index:2;border-left:1px dashed rgba(74,143,200,.3)}
+.evm{position:absolute;z-index:10;cursor:pointer}
+.evm:hover .evd{background:var(--acc-b);box-shadow:0 0 6px rgba(74,143,200,.5)}
+.evm:hover .evtxt{color:var(--acc-b);opacity:1}
+.evd{width:7px;height:7px;background:var(--acc);transform:rotate(45deg);position:absolute;top:3px;left:-3px;border:1px solid rgba(255,255,255,.2);transition:background .15s}
+.evtxt{position:absolute;left:6px;top:0;font-family:'Cinzel',serif;font-size:.48rem;letter-spacing:.07em;text-transform:uppercase;color:var(--acc);opacity:.75;white-space:nowrap;writing-mode:vertical-rl;transform:rotate(180deg);transform-origin:center;line-height:1;transition:color .15s,opacity .15s}
+
+/* Événements MAJEURS — losange plus grand, couleur rouge sang */
+.evm.major .evd{width:10px;height:10px;background:#c83030;top:2px;left:-5px;box-shadow:0 0 8px rgba(200,50,50,.4)}
+.evm.major .evtxt{color:#c83030;opacity:.9;font-size:.52rem;font-weight:600}
+.evm.major:hover .evd{background:#e84040;box-shadow:0 0 12px rgba(200,50,50,.7)}
+.evm.major:hover .evtxt{color:#e84040}
+
+.gl{position:absolute;top:0;width:1px;pointer-events:none;z-index:1}
+
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.mbg.open{display:flex}
+.mbox{background:var(--panel2);border:1px solid var(--border2);border-top:3px solid var(--acc-d);border-radius:7px;max-width:500px;width:100%;padding:26px 26px 22px;box-shadow:0 28px 70px rgba(0,0,0,.8);position:relative;animation:min .22s ease}
+@keyframes min{from{transform:scale(.94) translateY(10px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.mclo{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-d);font-size:1.1rem;cursor:pointer;padding:4px 8px;border-radius:3px;transition:color .15s}
+.mclo:hover{color:var(--acc)}
+.mper{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc-d);margin-bottom:7px}
+.mnam{font-family:'Cinzel',serif;font-size:1.05rem;font-weight:700;color:var(--acc);margin-bottom:4px;line-height:1.3;padding-right:28px}
+.mdyn{font-size:.85rem;color:var(--text-d);font-style:italic;margin-bottom:10px}
+.mcol{display:inline-block;width:30px;height:4px;border-radius:2px;margin-bottom:12px}
+.mdesc{font-size:.95rem;line-height:1.65;color:var(--text)}
+.mwk{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 16px;background:var(--acc-f);border:1px solid var(--acc-d);border-radius:4px;color:var(--acc);font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .18s,border-color .18s}
+.mwk:hover{background:rgba(74,143,200,.14);border-color:var(--acc)}
+
+.pf{padding:13px 28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.pft{font-size:.75rem;color:var(--text-f);font-style:italic}
+.pfl{color:var(--acc-d);text-decoration:none;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.1em;transition:color .18s}
+.pfl:hover{color:var(--acc)}
+
+/* Badge "Saga" sur Abdelmalik */
+.badge{position:absolute;top:-1px;right:2px;font-family:'Cinzel',serif;font-size:.42rem;letter-spacing:.06em;background:#1e6ea8cc;color:#a0d0f0;padding:1px 4px;border-radius:2px;pointer-events:none;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ph-top">
+    <h1>Frise Chronologique</h1>
+    <span class="ph-num">II &mdash; Abdelmalik &amp; la Bataille des Trois Rois</span>
+  </div>
+  <div class="ph-tag">Des guerres saado-ottomanes à l'apogée de la Renaissance — L'ère de Philippe II, Lépante et Élisabeth Ire</div>
+  <div class="ph-note">Cliquez sur un règne ou un événement pour en savoir plus. Glissez pour naviguer.</div>
+  <a href="frise_1480_1557.html" class="ph-link">← Frise I (1480–1557)</a>
+  <div class="legend" id="legend"></div>
+</div>
+
+<div class="tlw" id="tlw">
+  <div class="tli" id="tli"></div>
+</div>
+
+<div class="pf">
+  <span class="pft">Frise réalisée dans le cadre des recherches pour la Saga des Zaydanides.</span>
+  <a href="https://chraibianas.com" target="_blank" class="pfl">chraibianas.com</a>
+</div>
+
+<div class="mbg" id="mbg">
+  <div class="mbox">
+    <button class="mclo" id="mclo">✕</button>
+    <div class="mper" id="mper"></div>
+    <div class="mnam" id="mnam"></div>
+    <div class="mdyn" id="mdyn"></div>
+    <div class="mcol" id="mcol"></div>
+    <div class="mdesc" id="mdesc"></div>
+    <a class="mwk" id="mwk" href="#" target="_blank" rel="noopener">
+      <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+      Voir sur Wikipédia
+    </a>
+  </div>
+</div>
+
+<script>
+const S=1557, E=1603, PY=22, LW=148;
+const TW=(E-S+1)*PY;
+const yx=yr=>(yr-S)*PY;
+const yw=(a,b)=>(b-a)*PY;
+
+const POWERS=[
+  {
+    id:'maroc', label:'MAROC\nZAYDANIDES',
+    rows:[
+      [
+        { s:1557,e:1574, c:'#2a9060', lbl:'Abdallah Al-Ghalib',
+          name:'Abdallah Al-Ghalib Billah', per:'r. 1557 – 1574', dyn:'Zaydanides (Saadiens)',
+          wiki:'https://fr.wikipedia.org/wiki/Abdallah_al-Ghalib',
+          desc:"Fils aîné de Mohammed Echeykh, premier sultan zaydanide à hériter d'un Maroc unifié. Il consolide le pouvoir central, développe les relations diplomatiques avec l'Espagne et l'Angleterre pour contrebalancer la pression ottomane. Craint l'influence ottomane et fait assassiner ses propres frères — dont Abdelmalik — qui se réfugient à Alger. Mécène des arts et de l'architecture, il embellit Marrakech."
+        },
+        { s:1574,e:1576, c:'#22805a', lbl:'Mohammed Al-Mutawakkil',
+          name:'Mohammed Al-Mutawakkil', per:'r. 1574 – 1576', dyn:'Zaydanides',
+          wiki:'https://fr.wikipedia.org/wiki/Mohammed_al-Mutawakkil',
+          desc:"Sultan zaydanide déposé en 1576 par son oncle Abdelmalik, soutenu par l'Empire ottoman. En désespoir, il sollicite l'aide du roi du Portugal Sébastien Ier en lui offrant des territoires marocains — alliance fatale qui précipite la Bataille des Trois Rois. Il est l'un des trois rois qui périssent à Ksar el-Kébir (1578). Sa mort incidentelle dans les eaux de l'Oued Makhazine scelle le sort du Maroc."
+        },
+      ],
+      [
+        { s:1576,e:1578, c:'#1e6ea8', lbl:'Abdelmalik — Sultan',
+          name:'Abdelmalik (Abd al-Malik Ier)', per:'r. 1576 – 1578', dyn:'Zaydanides',
+          wiki:'https://fr.wikipedia.org/wiki/Abd_al-Malik_I',
+          desc:"Personnage central du second roman de la Saga des Zaydanides. Fils de Mohammed Echeykh, il grandit exilé à Alger et Constantinople, apprend la guerre auprès des Ottomans et la philosophie à la cour du sultan. Diplomate hors pair, il correspond en latin avec l'Europe et en arabe avec les sultans. Reprend Marrakech (1576) avec l'appui ottoman. Meurt mystérieusement pendant la Bataille des Trois Rois (1578) — d'une maladie cachée à son armée — quelques heures avant la victoire. Son corps est gardé secret pour maintenir le moral des troupes. Figure tragique et visionnaire."
+        },
+        { s:1578,e:1603, c:'#2a9060', lbl:'Ahmed Al-Mansour — Le Victorieux',
+          name:'Ahmed Al-Mansour (Le Victorieux / Le Doré)', per:'r. 1578 – 1603', dyn:'Zaydanides',
+          wiki:'https://fr.wikipedia.org/wiki/Ahmad_al-Mansur',
+          desc:"Frère d'Abdelmalik, il prend le pouvoir à l'issue de la Bataille des Trois Rois et se proclame al-Mansour (le Victorieux). Son long règne marque l'apogée des Zaydanides : il conquiert le Soudan et Tombouctou (1591), inonde le Maroc d'or, se surnomme al-Dhahabi (le Doré). Diplomate sophistiqué, il entretient des relations avec Elizabeth Ire d'Angleterre contre l'Espagne. Marrakech devient une métropole architecturale et culturelle de premier plan avec le palais El Badi."
+        },
+      ],
+    ],
+    events:[
+      { y:1578, lbl:'Trois Rois', major:true,
+        name:"Bataille des Trois Rois — Wadi al-Makhazin", per:'4 août 1578',
+        wiki:'https://fr.wikipedia.org/wiki/Bataille_des_Trois_Rois',
+        desc:"Ksar el-Kébir, 4 août 1578. Trois rois meurent le même jour : Abdelmalik (maladie secrète), Sébastien Ier de Portugal (tué au combat), Mohammed Al-Mutawakkil (noyé en fuyant). L'armée portugaise est anéantie — 20 000 morts, 15 000 prisonniers. Le Portugal, décimé, tombe sous la tutelle de Philippe II d'Espagne trois ans plus tard. Le Maroc entre dans son âge d'or sous Ahmed Al-Mansour. Bataille décisive de l'histoire du monde atlantique."
+      },
+      { y:1591, lbl:'Tombouctou', major:false,
+        name:"Conquête du Soudan — Prise de Tombouctou", per:'1591',
+        wiki:'https://fr.wikipedia.org/wiki/Conquête_du_Soudan_par_le_Maroc',
+        desc:"Ahmed Al-Mansour envoie une armée de 4 000 hommes traverser le Sahara pour s'emparer des mines d'or de l'empire Songhay. Prise de Tombouctou et Gao. Afflux massif d'or qui finance le luxe de Marrakech et le palais El Badi. Opération militaire sans précédent dans l'histoire du Sahara."
+      },
+    ],
+  },
+  {
+    id:'ottoman', label:'OTTOMAN\nALGER',
+    rows:[
+      [
+        { s:1557,e:1566, c:'#8c1c2e', lbl:'Soliman Ier (fin de règne)',
+          name:'Soliman Ier — Al Kanouni', per:'r. 1520 – 1566', dyn:'Empire ottoman',
+          wiki:'https://fr.wikipedia.org/wiki/Soliman_le_Magnifique',
+          desc:"Les dernières années de Soliman : siège de Malte (1565, échec), mort devant Szigetvár (Hongrie) en 1566. Il correspond avec Abdelmalik et les princes zaydanides exilés à Alger, les protège et les entretient. Son soutien aux Zaydanides contre les Wattassides et les Saadiens rebelles façonne la politique maghrébine de son empire."
+        },
+        { s:1566,e:1574, c:'#9c2030', lbl:'Selim II',
+          name:'Selim II', per:'r. 1566 – 1574', dyn:'Empire ottoman',
+          wiki:'https://fr.wikipedia.org/wiki/S%C3%A9lim_II',
+          desc:"Fils de Soliman et de Hürrem Sultan. Surnommé le Blond ou le Sot par ses contemporains, son règne est en réalité dirigé par le Grand Vizir Sokollu Mehmet Pacha. L'empire subit sa première grande défaite navale à Lépante (1571) mais reconquiert Tunis (1574). Il envoie une armée soutenir Abdelmalik pour reconquérir le Maroc (1576)."
+        },
+        { s:1574,e:1595, c:'#a02838', lbl:'Mourad III',
+          name:'Mourad III', per:'r. 1574 – 1595', dyn:'Empire ottoman',
+          wiki:'https://fr.wikipedia.org/wiki/Mourad_III',
+          desc:"Son règne voit la montée en puissance du harem ottoman dans les affaires de l'État (le « Sultanat des femmes »). Période de déclin relatif : corruption, janissaires indisciplinés. L'empire affronte simultanément la Perse safavide et les puissances européennes. Il perd définitivement son influence directe sur le Maroc après la Bataille des Trois Rois et la montée d'Ahmed Al-Mansour."
+        },
+        { s:1595,e:1603, c:'#8c2030', lbl:'Mehmed III',
+          name:'Mehmed III', per:'r. 1595 – 1603', dyn:'Empire ottoman',
+          wiki:'https://fr.wikipedia.org/wiki/Mehmed_III',
+          desc:"Accède au trône après avoir fait exécuter 19 de ses frères. Dernier sultan à commander personnellement ses troupes à la Bataille de Keresztes (1596). Son règne est marqué par la longue guerre austro-ottomane et l'influence croissante du harem."
+        },
+      ],
+      [
+        { s:1557,e:1603, c:'#a83030', lbl:"Régence d'Alger — Beylerbeys",
+          name:"Régence ottomane d'Alger", per:'1516 – 1830', dyn:"Régence ottomane",
+          wiki:"https://fr.wikipedia.org/wiki/R%C3%A9gence_d%27Alger",
+          desc:"Alger, base de la puissance ottomane en Afrique du Nord, joue un rôle pivot durant cette période. C'est depuis Alger qu'Abdelmalik et ses frères sont entretenus par les Ottomans lors de leur exil. C'est de là que part l'armée qui reconquiert le Maroc en 1576. Alger est également le point de départ des razzias de corsaires qui terrorisent la Méditerranée occidentale."
+        },
+      ],
+    ],
+    events:[
+      { y:1565, lbl:'Malte', major:false,
+        name:"Grand Siège de Malte", per:'1565',
+        wiki:'https://fr.wikipedia.org/wiki/Si%C3%A8ge_de_Malte_(1565)',
+        desc:"Soliman le Magnifique envoie 40 000 hommes prendre l'île de Malte aux Chevaliers de Saint-Jean. Après 4 mois d'un siège épuisant, les Ottomans sont repoussés. La résistance héroïque de Malte devient légendaire en Europe. Dernier grand assaut naval ottoman en Méditerranée occidentale."
+      },
+      { y:1571, lbl:'Lépante ⚔', major:true,
+        name:"Bataille de Lépante", per:'7 octobre 1571',
+        wiki:'https://fr.wikipedia.org/wiki/Bataille_de_L%C3%A9pante',
+        desc:"Golfe de Patras, 7 octobre 1571. La Sainte-Ligue (Espagne, Venise, États pontificaux) écrase la flotte ottomane : 30 000 Ottomans tués ou capturés, 200 galères coulées ou prises. Fin de l'invincibilité navale ottomane en Méditerranée. Cervantes y perd l'usage de la main gauche. Victoire symbolique majeure pour la chrétienté, bien que l'empire ottoman reconstitue sa flotte en quelques mois. Événement central de l'époque du roman « Le vent se lève sur Santa Cruz »."
+      },
+    ],
+  },
+  {
+    id:'espagne', label:'ESPAGNE\nPORTUGAL',
+    rows:[
+      [
+        { s:1557,e:1598, c:'#c89030', lbl:'Philippe II — El Prudente',
+          name:'Philippe II (El Prudente)', per:'r. 1556 – 1598', dyn:'Habsbourg (Espagne)',
+          wiki:'https://fr.wikipedia.org/wiki/Philippe_II_d%27Espagne',
+          desc:"Maître du premier empire mondial sur lequel le soleil ne se couche jamais. Organise la Sainte-Ligue contre les Ottomans → Lépante (1571). Annexe le Portugal (1580) après la mort de Sébastien Ier à la Bataille des Trois Rois. Envoie l'Invincible Armada contre l'Angleterre (1588) — désastre total. Construit l'Escorial. Mène les guerres de Religion en Europe. Adversaire d'Abdelmalik et d'Ahmed Al-Mansour mais aussi partenaire commercial indirect."
+        },
+        { s:1598,e:1603, c:'#b07c20', lbl:'Philippe III',
+          name:'Philippe III', per:'r. 1598 – 1621', dyn:'Habsbourg (Espagne)',
+          wiki:'https://fr.wikipedia.org/wiki/Philippe_III_d%27Espagne',
+          desc:"Délègue le pouvoir au duc de Lerma. Signe la paix avec l'Angleterre (1604) et avec les Provinces-Unies (Trêve des Douze Ans, 1609). Ordonne l'expulsion des Morisques d'Espagne (1609–1614) — catastrophe économique et démographique. Fin de l'âge d'or impérial espagnol."
+        },
+      ],
+      [
+        { s:1557,e:1578, c:'#8a5c18', lbl:'Sébastien Ier de Portugal',
+          name:'Sébastien Ier de Portugal', per:'r. 1557 – 1578', dyn:'Avis (Portugal)',
+          wiki:'https://fr.wikipedia.org/wiki/S%C3%A9bastien_Ier_de_Portugal',
+          desc:"Roi-croisé obsédé par la reconquête de l'Afrique du Nord. Profitant de la demande de Mohammed Al-Mutawakkil de l'aider à reconquérir son trône contre Abdelmalik, il monte une immense expédition au Maroc en 1578. Meurt à la Bataille des Trois Rois — son corps ne sera jamais formellement identifié, alimentant le mythe du « Sebastianisme » (le roi dormant qui reviendra). Sa mort sans héritier offre le Portugal à Philippe II d'Espagne."
+        },
+        { s:1578,e:1598, c:'#7a5010', lbl:'Portugal sous Philippe II',
+          name:'Portugal sous la couronne espagnole', per:'1580 – 1640', dyn:'Union ibérique (Philippe II)',
+          wiki:'https://fr.wikipedia.org/wiki/Union_ib%C3%A9rique',
+          desc:"Après la mort de Sébastien Ier à Ksar el-Kébir (1578) et du cardinal Henri (1580), Philippe II d'Espagne hérite du Portugal et de son empire mondial. Le Portugal perd son indépendance pour soixante ans (1640). L'Union ibérique concentre les deux plus grands empires coloniaux du monde sous une seule couronne — cible principale des Provinces-Unies et de l'Angleterre."
+        },
+      ],
+    ],
+    events:[
+      { y:1571, lbl:'Lépante (Esp.)', major:false,
+        name:"Sainte-Ligue — Victoire de Lépante", per:'1571',
+        wiki:'https://fr.wikipedia.org/wiki/Bataille_de_L%C3%A9pante',
+        desc:"Philippe II finance et coordonne la Sainte-Ligue avec Venise et la papauté. Don Juan d'Autriche, demi-frère du roi, commande la flotte victorieuse. Triomphe politique et moral pour l'Espagne des Habsbourg."
+      },
+      { y:1580, lbl:'Union ibérique', major:false,
+        name:"Philippe II annexe le Portugal", per:'1580',
+        wiki:'https://fr.wikipedia.org/wiki/Union_ib%C3%A9rique',
+        desc:"Conséquence directe de la mort de Sébastien Ier à Ksar el-Kébir. Philippe II hérite du Portugal, unifiant les deux plus grands empires coloniaux du monde. Cette union fait d'Ahmed Al-Mansour un partenaire stratégique potentiel pour les Provinces-Unies et l'Angleterre."
+      },
+      { y:1588, lbl:"Armada ⛵", major:true,
+        name:"Défaite de l'Invincible Armada", per:'1588',
+        wiki:"https://fr.wikipedia.org/wiki/Invincible_Armada",
+        desc:"Philippe II envoie 130 navires contre l'Angleterre d'Élisabeth Ire. La tempête et la tactique anglaise détruisent les deux tiers de la flotte. Fin de l'hégémonie maritime espagnole. Montée en puissance de l'Angleterre et des Provinces-Unies comme puissances maritimes mondiales. Tournant de l'histoire mondiale."
+      },
+    ],
+  },
+  {
+    id:'france', label:'FRANCE\nANGLETERRE',
+    rows:[
+      [
+        { s:1557,e:1559, c:'#285498', lbl:'Henri II (fin)',
+          name:'Henri II', per:'r. 1547 – 1559', dyn:'Valois (France)',
+          wiki:'https://fr.wikipedia.org/wiki/Henri_II_(roi_de_France)',
+          desc:"Meurt accidentellement d'un éclat de lance dans l'œil lors d'un tournoi de joûte (1559). Sa mort ouvre les guerres de Religion en France."
+        },
+        { s:1559,e:1560, c:'#285498', lbl:'François II',
+          name:'François II', per:'r. 1559 – 1560', dyn:'Valois (France)',
+          wiki:'https://fr.wikipedia.org/wiki/Fran%C3%A7ois_II_de_France',
+          desc:"Règne de quelques mois, marié à Marie Stuart. Sous l'influence des Guises. Mort d'une otite à 16 ans."
+        },
+        { s:1560,e:1574, c:'#285498', lbl:'Charles IX',
+          name:'Charles IX', per:'r. 1560 – 1574', dyn:'Valois (France)',
+          wiki:'https://fr.wikipedia.org/wiki/Charles_IX_de_France',
+          desc:"Roi enfant sous régence de Catherine de Médicis. Son règne est dominé par les guerres de Religion. Ordonne (ou subit) le massacre de la Saint-Barthélémy (24 août 1572) — 3 000 à 30 000 protestants massacrés à Paris et en province. Meurt à 23 ans, hanté, dit-on, par le massacre."
+        },
+        { s:1574,e:1589, c:'#3050a8', lbl:'Henri III',
+          name:'Henri III', per:'r. 1574 – 1589', dyn:'Valois (France)',
+          wiki:'https://fr.wikipedia.org/wiki/Henri_III_de_France',
+          desc:"Dernier des Valois. Son règne est la guerre civile permanente entre catholiques et protestants (Ligue catholique vs huguenots). Fait assassiner le duc de Guise (1588). Assassiné lui-même par le moine Jacques Clément (1589). Sa mort éteint la branche Valois."
+        },
+        { s:1589,e:1603, c:'#3a68c0', lbl:'Henri IV — Le Grand',
+          name:'Henri IV — Le Grand', per:'r. 1589 – 1610', dyn:'Bourbon (France)',
+          wiki:'https://fr.wikipedia.org/wiki/Henri_IV_de_France',
+          desc:"Fondateur de la dynasty Bourbon. Huguenot converti au catholicisme (« Paris vaut bien une messe »). Édit de Nantes (1598) — liberté de culte aux protestants. Fin des guerres de Religion. Relance l'économie française. Correspond avec Ahmed Al-Mansour. Assassiné par Ravaillac en 1610."
+        },
+      ],
+      [
+        { s:1557,e:1558, c:'#4040a0', lbl:"Marie Ire (fin)", name:"Marie Ire (fin de règne)", per:'r. 1553–1558', dyn:'Tudor (Angleterre)',
+          wiki:'https://fr.wikipedia.org/wiki/Marie_Ire_d%27Angleterre',
+          desc:"Fin du règne de Bloody Mary. Meurt en novembre 1558, laissant l'Angleterre à sa demi-sœur Élisabeth."
+        },
+        { s:1558,e:1603, c:'#5050b8', lbl:'Élisabeth Ire — The Virgin Queen',
+          name:"Élisabeth Ire d'Angleterre", per:'r. 1558 – 1603', dyn:'Tudor (Angleterre)',
+          wiki:"https://fr.wikipedia.org/wiki/%C3%89lisabeth_Ire_d%27Angleterre",
+          desc:"L'une des souveraines les plus importantes de l'histoire mondiale. Établit l'anglicanisme, résiste à Philippe II (Armada, 1588), encourage Francis Drake et les corsaires, fonde la Compagnie des Indes orientales (1600). Correspond avec Ahmed Al-Mansour — les deux souverains envisagent une alliance anti-espagnole et le repeuplement des Amériques par les Morisques. Ère élisabéthaine : Shakespeare, Marlowe, Bacon."
+        },
+      ],
+    ],
+    events:[
+      { y:1572, lbl:'St-Barthélémy', major:true,
+        name:"Massacre de la Saint-Barthélémy", per:'24 août 1572',
+        wiki:'https://fr.wikipedia.org/wiki/Massacre_de_la_Saint-Barth%C3%A9lemy',
+        desc:"Paris, nuit du 23 au 24 août 1572. Assassinat de l'amiral Coligny puis massacre généralisé des protestants français. Des milliers de victimes à Paris, des dizaines de milliers en province. Traumatisme durable de la France. L'Europe est stupéfaite — y compris Ahmed Al-Mansour depuis Marrakech."
+      },
+      { y:1598, lbl:"Édit de Nantes", major:false,
+        name:"Édit de Nantes", per:'1598',
+        wiki:'https://fr.wikipedia.org/wiki/%C3%89dit_de_Nantes',
+        desc:"Henri IV accorde aux protestants la liberté de culte et des droits civils. Fin officielle des guerres de Religion en France. Premier acte de tolérance religieuse institutionnalisée en Europe occidentale."
+      },
+    ],
+  },
+  {
+    id:'ren', label:'RENAISSANCE\nITALIE',
+    rows:[
+      [
+        { s:1557,e:1564, c:'#a84020', lbl:'Michel-Ange (fin de vie)',
+          name:'Michel-Ange Buonarroti', per:'1475 – 1564', dyn:'Renaissance italienne',
+          wiki:'https://fr.wikipedia.org/wiki/Michel-Ange',
+          desc:"Les dernières années du génie universel. Architecte en chef de Saint-Pierre de Rome jusqu'à sa mort. Ses Pietàs tardives montrent un art de plus en plus dépouillé et mystique. Mort à 88 ans, laissant le dôme de Saint-Pierre inachevé."
+        },
+        { s:1564,e:1603, c:'#c05030', lbl:'Âge du Maniérisme — art post-Renaissance',
+          name:'Maniérisme et art de la fin du XVIe siècle', per:'c. 1520 – 1600', dyn:'Art européen',
+          wiki:'https://fr.wikipedia.org/wiki/Mani%C3%A9risme',
+          desc:"Après la Haute Renaissance, l'art européen entre dans une période de sophistication formelle et d'expressivité exacerbée : Pontormo, Bronzino, Tintoret, El Greco. Pendant ce temps, Ahmed Al-Mansour finance les arts à Marrakech — palais El Badi avec ses colonnes de marbre de Carrare, ses faïences de Fès, ses marbres d'Italie."
+        },
+      ],
+      [
+        { s:1557,e:1603, c:'#8c3018', lbl:'Papauté — Contre-Réforme',
+          name:'Contre-Réforme catholique', per:'c. 1545 – 1648', dyn:'Église catholique romaine',
+          wiki:'https://fr.wikipedia.org/wiki/Contre-R%C3%A9forme',
+          desc:"Le Concile de Trente (1545–1563) redéfinit le catholicisme face à la Réforme protestante. Les Jésuites (fondés par Ignace de Loyola en 1540) deviennent l'avant-garde intellectuelle et missionnaire de l'Église. L'Inquisition s'intensifie en Espagne et en Italie. Ce bouillonnement religieux contraste avec la tolérance relative des cours ottomane et zaydanide."
+        },
+      ],
+    ],
+    events:[
+      { y:1600, lbl:'Bruno brûlé', major:false,
+        name:"Giordano Bruno — Autodafé à Rome", per:'1600',
+        wiki:'https://fr.wikipedia.org/wiki/Giordano_Bruno',
+        desc:"Le philosophe Giordano Bruno est brûlé vif sur le Campo dei Fiori à Rome par l'Inquisition. Il défendait l'infinité de l'univers et l'existence de mondes multiples. Symbole de la répression de la pensée libre par la Contre-Réforme."
+      },
+    ],
+  },
+  {
+    id:'figures', label:'FIGURES\nCLÉS',
+    rows:[
+      [
+        { s:1564,e:1603, c:'#9050b0', lbl:'Shakespeare — Marlowe — Cervantes',
+          name:'Shakespeare, Marlowe, Cervantes', per:'actifs 1580–1603 (et au-delà)', dyn:'Littérature européenne de la Renaissance',
+          wiki:'https://fr.wikipedia.org/wiki/William_Shakespeare',
+          desc:"L'apogée de la littérature élisabéthaine et de la Renaissance espagnole : Shakespeare (Hamlet, Othello, Le Marchand de Venise — avec son Maure de Venise Othello) ; Marlowe (Tamerlan, Faust) ; Cervantes (blessé à Lépante en 1571, capturé par des pirates barbaresques, esclave à Alger 5 ans, libéré en 1580 — son expérience du monde arabo-berbère nourrit Don Quichotte, 1605). La Méditerranée du XVIe siècle irrigue la littérature mondiale."
+        },
+      ],
+      [
+        { s:1557,e:1598, c:'#206090', lbl:'Sinan — Architecte de Soliman & Selim',
+          name:'Mimar Sinan', per:'c. 1490 – 1588', dyn:'Architecte impérial ottoman',
+          wiki:'https://fr.wikipedia.org/wiki/Sinan',
+          desc:"Le plus grand architecte de l'Empire ottoman. Construit la mosquée de Soliman (Süleymaniye, 1557), la mosquée de Selim à Edirne (Selimiye, 1575) — son chef-d'œuvre déclaré. Plus de 300 bâtiments à son actif. Son œuvre influence toute l'architecture islamique ultérieure et ses techniques de construction restent un objet d'étude pour les ingénieurs modernes."
+        },
+        { s:1570,e:1603, c:'#306898', lbl:"Al-Fishtali — Chroniqueur d'Al-Mansour",
+          name:"Abd al-Aziz Al-Fishtali", per:'c. 1549 – 1621', dyn:'Secrétaire et chroniqueur zaydanide',
+          wiki:'',
+          desc:"Secrétaire officiel et chroniqueur d'Ahmed Al-Mansour. Auteur de Manahil al-Safa, récit de la conquête du Soudan. Sa plume façonne l'image d'Al-Mansour pour la postérité. Précieuse source première sur la cour de Marrakech et les campagnes militaires zaydanides."
+        },
+      ],
+    ],
+    events:[],
+  },
+];
+
+const LEGEND_DATA=[
+  {c:'#2a9060',lbl:'Zaydanides'},{c:'#1e6ea8',lbl:'Abdelmalik'},
+  {c:'#8c1c2e',lbl:'Empire ottoman'},{c:'#a83030',lbl:'Alger'},
+  {c:'#c89030',lbl:'Espagne'},{c:'#7a5010',lbl:'Portugal'},
+  {c:'#285498',lbl:'France'},{c:'#5050b8',lbl:'Angleterre'},
+  {c:'#a84020',lbl:'Renaissance / Italie'},{c:'#9050b0',lbl:'Figures clés'},
+];
+
+// ══════════════════════════════════════════════════════════
+function el(tag,cls){const e=document.createElement(tag);if(cls)e.className=cls;return e;}
+
+function build(){
+  const leg=document.getElementById('legend');
+  LEGEND_DATA.forEach(d=>{
+    const li=el('div','li');
+    li.innerHTML=`<span class="ls" style="background:${d.c}"></span>${d.lbl}`;
+    leg.appendChild(li);
+  });
+
+  const tli=document.getElementById('tli');
+  tli.style.width=(LW+TW+60)+'px';
+  tli.appendChild(buildAxis());
+  POWERS.forEach((p,pi)=>tli.appendChild(buildRow(p,pi)));
+}
+
+function buildAxis(){
+  const row=el('div','row ax-row');
+  const rl=el('div','rl');
+  rl.innerHTML=`<div class="rlt" style="color:var(--acc-d)">ÉPOQUE</div>`;
+  row.appendChild(rl);
+  const rc=el('div','rc');
+  rc.style.width=(TW+60)+'px';
+  rc.style.height='44px';
+  rc.style.background='var(--panel)';
+  for(let yr=S;yr<=E+1;yr++){
+    const ym=el('div','ym '+(yr%10===0?'dec':yr%5===0?'fiv':'sin'));
+    ym.style.left=yx(yr)+'px';
+    const isDec=yr%10===0,isFiv=yr%5===0;
+    ym.innerHTML=`<div class="yt"></div>${(isDec||isFiv)?`<div class="yl">${yr}</div>`:''}`;
+    rc.appendChild(ym);
+  }
+  row.appendChild(rc);
+  return row;
+}
+
+function buildRow(p,pi){
+  const nsr=p.rows.length;
+  const hasEvt=p.events.length>0;
+  const BH=33,BG=7,PT=10,PB=10;
+  const EH=hasEvt?34:0,EM=hasEvt?8:0;
+  const rowH=PT+nsr*(BH+BG)-BG+EM+EH+PB;
+
+  const row=el('div','row');
+  const rl=el('div','rl');
+  rl.innerHTML=`<div class="rlt">${p.label.replace('\n','<br>')}</div>`;
+  row.appendChild(rl);
+
+  const rc=el('div','rc');
+  rc.style.width=(TW+60)+'px';
+  rc.style.height=rowH+'px';
+  rc.style.background=pi%2===0?'rgba(255,255,255,.015)':'rgba(0,0,0,.2)';
+
+  for(let yr=S;yr<=E;yr+=10){
+    const gl=el('div','gl');
+    gl.style.cssText=`left:${yx(yr)}px;height:${rowH}px;background:rgba(255,255,255,.025)`;
+    rc.appendChild(gl);
+  }
+
+  p.rows.forEach((sr,si)=>{
+    const barTop=PT+si*(BH+BG);
+    sr.forEach(ruler=>{
+      const bw=Math.max(yw(ruler.s,ruler.e)-2,2);
+      const bx=yx(ruler.s)+1;
+      if(bw<=0)return;
+      const bar=el('div','rb');
+      bar.style.cssText=`left:${bx}px;top:${barTop}px;width:${bw}px;height:${BH}px;background:${ruler.c}`;
+      if(bw>55)bar.innerHTML=`<span class="rbl">${ruler.lbl}</span>`;
+      bar.title=ruler.name;
+      bar.addEventListener('click',()=>openModal({per:ruler.per,name:ruler.name,dyn:ruler.dyn,c:ruler.c,wiki:ruler.wiki,desc:ruler.desc}));
+      rc.appendChild(bar);
+    });
+  });
+
+  if(hasEvt){
+    const evtTop=PT+nsr*(BH+BG)-BG+EM;
+    p.events.forEach(evt=>{
+      const ex=yx(evt.y);
+      const vl=el('div','evl');
+      vl.style.cssText=`left:${ex}px;height:${rowH}px`;
+      rc.appendChild(vl);
+      const evm=el('div','evm'+(evt.major?' major':''));
+      evm.style.cssText=`left:${ex-5}px;top:${evtTop}px;width:16px;height:${EH}px`;
+      evm.appendChild(el('div','evd'));
+      const etxt=el('div','evtxt');
+      etxt.style.cssText=`top:${EH-4}px`;
+      etxt.textContent=evt.lbl;
+      evm.appendChild(etxt);
+      evm.addEventListener('click',()=>openModal({per:evt.per,name:evt.name,dyn:'',c:evt.major?'#c83030':'var(--acc)',wiki:evt.wiki,desc:evt.desc}));
+      rc.appendChild(evm);
+    });
+  }
+
+  row.appendChild(rc);
+  return row;
+}
+
+function openModal(d){
+  document.getElementById('mper').textContent=d.per||'';
+  document.getElementById('mnam').textContent=d.name;
+  document.getElementById('mdyn').textContent=d.dyn;
+  document.getElementById('mcol').style.background=d.c;
+  document.getElementById('mdesc').textContent=d.desc;
+  const wk=document.getElementById('mwk');
+  if(d.wiki){wk.href=d.wiki;wk.style.display='inline-flex';}
+  else{wk.style.display='none';}
+  document.getElementById('mbg').classList.add('open');
+}
+function closeModal(){document.getElementById('mbg').classList.remove('open');}
+document.getElementById('mclo').addEventListener('click',closeModal);
+document.getElementById('mbg').addEventListener('click',e=>{if(e.target===document.getElementById('mbg'))closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+(function(){
+  const w=document.getElementById('tlw');
+  let down=false,sx,sl;
+  w.addEventListener('mousedown',e=>{
+    if(e.target.closest('.rb')||e.target.closest('.evm'))return;
+    down=true;sx=e.pageX-w.offsetLeft;sl=w.scrollLeft;w.style.cursor='grabbing';
+  });
+  document.addEventListener('mouseup',()=>{down=false;document.getElementById('tlw').style.cursor='default';});
+  w.addEventListener('mousemove',e=>{
+    if(!down)return;e.preventDefault();
+    w.scrollLeft=sl-(e.pageX-w.offsetLeft-sx)*1.4;
+  });
+})();
+
+build();
+</script>
+</body>
+</html>

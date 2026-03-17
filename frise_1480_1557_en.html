@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline I — Yahya & Mohammed Echeykh · 1480–1557</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{background:#f5f0e8;color:#1a1208;font-family:'Crimson Text',Georgia,serif;min-height:100vh}
+:root{
+  --bg:#f5f0e8;--panel:#ede6d6;--panel2:#e8dfc8;
+  --border:#d4c8a8;--border2:#b8a878;
+  --gold:#7a5a10;--gold-d:#a07830;--gold-f:#f0e8d0;--gold-b:#5a3c08;
+  --text:#1a1208;--text-d:#5a4820;--text-f:#9a8850;
+  --lw:148px;--pyr:22;
+}
+.ph{background:linear-gradient(180deg,rgba(122,90,16,.06) 0%,transparent 100%);border-bottom:2px solid var(--border2);padding:22px 28px 16px}
+.ph-top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.ph h1{font-family:'Cinzel',serif;font-size:1.35rem;font-weight:900;color:var(--gold-b);letter-spacing:.06em;text-transform:uppercase}
+.ph-num{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold-d);font-weight:400}
+.ph-tag{font-style:italic;color:var(--text-d);font-size:.9rem;margin-top:5px}
+.ph-note{font-size:.78rem;color:var(--text-f);margin-top:3px;font-style:italic}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px}
+.li{display:flex;align-items:center;gap:6px;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;color:var(--text-d)}
+.ls{display:inline-block;width:20px;height:8px;border-radius:2px;border:1px solid rgba(0,0,0,.15)}
+.tlw{overflow-x:auto;overflow-y:visible;-webkit-overflow-scrolling:touch;background:var(--bg)}
+.tlw::-webkit-scrollbar{height:5px}
+.tlw::-webkit-scrollbar-track{background:var(--panel)}
+.tlw::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.tli{position:relative}
+.row{display:flex;border-bottom:1px solid var(--border)}
+.row:last-child{border-bottom:none}
+.rl{width:var(--lw);min-width:var(--lw);position:sticky;left:0;z-index:20;background:var(--panel);border-right:2px solid var(--border2);display:flex;align-items:center;padding:0 10px 0 16px}
+.rlt{font-family:'Cinzel',serif;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-d);line-height:1.4}
+.rc{position:relative;overflow:visible}
+.ax-row .rl{background:var(--panel2)}
+.ax-row .rc{height:44px;background:var(--panel2);border-bottom:2px solid var(--border2)}
+.ym{position:absolute;top:0;display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.ym.dec .yt{height:18px;width:1px;background:var(--border2);margin-top:6px}
+.ym.fiv .yt{height:11px;width:1px;background:var(--border);margin-top:6px}
+.ym.sin .yt{height:6px;width:1px;background:var(--border);margin-top:6px}
+.yl{font-family:'Cinzel',serif;font-size:.58rem;color:var(--gold);margin-top:2px;letter-spacing:.03em}
+.rb{position:absolute;border-radius:3px;overflow:hidden;display:flex;align-items:center;padding:0 7px;cursor:pointer;transition:filter .18s,transform .15s,box-shadow .18s;border-top:1px solid rgba(255,255,255,.35);border-left:1px solid rgba(255,255,255,.25);border-right:1px solid rgba(0,0,0,.2);border-bottom:2px solid rgba(0,0,0,.25);z-index:5}
+.rb:hover{filter:brightness(1.18) saturate(1.2);transform:translateY(-2px);z-index:25;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.rbl{font-family:'Cinzel',serif;font-size:.58rem;font-weight:700;letter-spacing:.04em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.evl{position:absolute;top:0;width:1px;pointer-events:none;z-index:2;border-left:1px dashed rgba(122,90,16,.4)}
+.evm{position:absolute;z-index:10;cursor:pointer}
+.evm:hover .evd{background:var(--gold-b)}
+.evm:hover .evtxt{color:var(--gold-b);opacity:1}
+.evd{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);position:absolute;top:3px;left:-4px;border:1px solid rgba(255,255,255,.3);transition:background .15s;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.evtxt{position:absolute;left:7px;top:0;font-family:'Cinzel',serif;font-size:.48rem;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);opacity:.85;white-space:nowrap;writing-mode:vertical-rl;transform:rotate(180deg);transform-origin:center;line-height:1}
+.gl{position:absolute;top:0;width:1px;pointer-events:none;z-index:1}
+/* MODAL */
+.mbg{position:fixed;inset:0;background:rgba(26,18,8,.6);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.mbg.open{display:flex}
+.mbox{background:#fff;border:1px solid var(--border2);border-top:4px solid var(--gold-d);border-radius:7px;max-width:500px;width:100%;padding:26px 26px 22px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;animation:min .22s ease;max-height:90vh;overflow-y:auto}
+@keyframes min{from{transform:scale(.94) translateY(10px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.mclo{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-d);font-size:1.1rem;cursor:pointer;padding:4px 8px;border-radius:3px}
+.mclo:hover{color:var(--gold-b)}
+.mper{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-f);margin-bottom:7px}
+.mnam{font-family:'Cinzel',serif;font-size:1.05rem;font-weight:700;color:var(--gold-b);margin-bottom:4px;line-height:1.3;padding-right:28px}
+.mdyn{font-size:.85rem;color:var(--text-d);font-style:italic;margin-bottom:10px}
+.mcol{display:inline-block;width:30px;height:4px;border-radius:2px;margin-bottom:10px}
+/* IMAGE ZONE */
+.mimg-wrap{display:none;margin-bottom:14px}
+.mimg-wrap.visible{display:flex;align-items:flex-start;gap:14px}
+.mimg{width:80px;min-width:80px;height:106px;object-fit:cover;border-radius:4px;border:1px solid var(--border2);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.mimg-spinner{width:80px;min-width:80px;height:106px;border-radius:4px;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--text-f);font-style:italic}
+.mdesc{font-size:.95rem;line-height:1.65;color:var(--text)}
+.mwk{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 16px;background:var(--gold-f);border:1px solid var(--gold-d);border-radius:4px;color:var(--gold-b);font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .18s}
+.mwk:hover{background:#f0e0b0}
+.pf{padding:13px 28px;border-top:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;background:var(--panel)}
+.pft{font-size:.75rem;color:var(--text-f);font-style:italic}
+.pfl{color:var(--gold-d);text-decoration:none;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.1em}
+.pfl:hover{color:var(--gold-b)}
+</style>
+</head>
+<body>
+<div class="ph">
+  <div class="ph-top">
+    <h1>Historical Timeline</h1>
+    <span class="ph-num">I &mdash; Yahya &amp; Mohammed Echeykh</span>
+  </div>
+  <div class="ph-tag">From the Wattasid twilight to the Saadian dawn &mdash; The age of the Portuguese and Suleiman the Magnificent</div>
+  <div class="ph-note">Click on any reign, figure or event to learn more. Drag to navigate.</div>
+  <div class="legend" id="legend"></div>
+</div>
+<div class="tlw" id="tlw"><div class="tli" id="tli"></div></div>
+<div class="pf">
+  <span class="pft">Timeline produced as part of research for the Saadian Saga.</span>
+  <a href="https://chraibianas.com" target="_blank" class="pfl">chraibianas.com</a>
+</div>
+<div class="mbg" id="mbg">
+  <div class="mbox">
+    <button class="mclo" id="mclo">✕</button>
+    <div class="mper" id="mper"></div>
+    <div class="mnam" id="mnam"></div>
+    <div class="mdyn" id="mdyn"></div>
+    <div class="mcol" id="mcol"></div>
+    <div class="mimg-wrap" id="mimg-wrap">
+      <div class="mimg-spinner" id="mimg-spinner">Loading…</div>
+      <img class="mimg" id="mimg" src="" alt="" style="display:none">
+    </div>
+    <div class="mdesc" id="mdesc"></div>
+    <a class="mwk" id="mwk" href="#" target="_blank" rel="noopener">
+      <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+      View on Wikipedia
+    </a>
+  </div>
+</div>
+<script>
+const S=1480,E=1557,PY=22,LW=148;
+const TW=(E-S+1)*PY;
+const yx=yr=>(yr-S)*PY;
+const yw=(a,b)=>(b-a)*PY;
+
+const POWERS=[
+  { id:'maroc',label:'MOROCCO',
+    rows:[
+      [
+        { s:1480,e:1524,c:'#1555a0',lbl:'Mohammed Al-Burtughali — Wattasid',
+          name:'Mohammed Al-Burtughali',per:'r. ~1472 – 1524',dyn:'Wattasids',
+          wiki:'https://en.wikipedia.org/wiki/Mohammed_al-Burtughali',
+          desc:"Wattasid sultan reigning from Fez. He attempted to defend Morocco's Atlantic coast against Portuguese encroachments. His victory at the Maamora (1515) was the high point of his reign, but the Saadians were inexorably advancing from the South."
+        },
+        { s:1524,e:1549,c:'#1555a0',lbl:'Ahmed Al-Wattasi',
+          name:'Ahmed Al-Wattasi',per:'r. 1524 – 1549',dyn:'Wattasids',
+          wiki:'https://en.wikipedia.org/wiki/Abu_al-Abbas_Ahmad_ibn_Muhammad_al-Wattasi',
+          desc:"Last effective Wattasid sultan of Morocco. His long reign was dominated by the Saadian rise from the South. In 1549 he was forced to abandon Fez to the armies of Mohammed Echeykh al-Mahdi, ending two centuries of Wattasid rule over northern Morocco."
+        },
+      ],
+      [
+        { s:1509,e:1517,c:'#0e7040',lbl:'Mohammed Al-Qaim (Saadian)',
+          name:'Mohammed Al-Qaim bi-Amr Allah',per:'r. 1509 – 1517',dyn:'Saadians (Zaydanids)',
+          wiki:'https://en.wikipedia.org/wiki/Muhammad_al-Qaim_bi-Amr_Allah',
+          desc:"Founding sharif of the Saadian power in the Souss and southern Morocco. He preached jihad against the Portuguese who occupied Atlantic ports (Agadir, Safi…) and rallied Berber and Arab tribes to his cause."
+        },
+        { s:1517,e:1544,c:'#0e7040',lbl:'Ahmed Al-Araj (Saadian)',
+          name:'Ahmed Al-Araj',per:'r. 1517 – 1544',dyn:'Saadians (Zaydanids)',
+          wiki:'https://en.wikipedia.org/wiki/Ahmad_al-Araj',
+          desc:"Son of Mohammed Al-Qaim. He took Marrakesh in 1524, making it the Saadian capital. His reign consolidated Saadian power over southern and central Morocco. He was eventually ousted by his brother Mohammed Echeykh."
+        },
+        { s:1544,e:1557,c:'#0a5c30',lbl:'Mohammed Echeykh Al-Mahdi',
+          name:'Mohammed Echeykh al-Mahdi',per:'r. 1544 – 1557',dyn:'Saadians (Zaydanids)',
+          wiki:'https://en.wikipedia.org/wiki/Mohammed_ech-Cheikh',
+          desc:"First Saadian sultan to unify Morocco. He ousted his brother Ahmed Al-Araj, expelled the Wattasids from Fez (1549), and unified the country. He recaptured Agadir from the Portuguese (1541). Assassinated in 1557 by Ottoman janissaries infiltrated into his personal guard."
+        },
+      ],
+    ],
+    events:[
+      { y:1515,lbl:'Maamora',name:"Battle of Maamora",per:'1515',
+        wiki:'https://en.wikipedia.org/wiki/Battle_of_Maamora_(1515)',
+        desc:"The Wattasids repelled a Portuguese attempt to seize Maamora, a key harbour at the mouth of the Sebou river. A pivotal moment in the context of Anas Chraïbi's novel."
+      },
+      { y:1541,lbl:"Agadir",name:"Recapture of Agadir from Portugal",per:'1541',
+        wiki:'',
+        desc:"Mohammed Echeykh wrested Agadir (Santa Cruz do Cabo de Gué) from the Portuguese after over thirty years of occupation. A decisive strategic and symbolic victory that undermined the entire Portuguese presence on the Moroccan coast."
+      },
+      { y:1549,lbl:'Fall of Fez',name:"Saadians take Fez",per:'1549',
+        wiki:'',
+        desc:"Mohammed Echeykh captured Fez, the Wattasid capital, unifying Morocco under the Saadian banner for the first time in decades."
+      },
+      { y:1557,lbl:'Assassination',name:"Assassination of Mohammed Echeykh",per:'1557',
+        wiki:'https://en.wikipedia.org/wiki/Mohammed_ech-Cheikh',
+        desc:"Mohammed Echeykh was assassinated by Ottoman janissaries concealed in his personal guard. His death triggered a long rivalry between the Saadians and the Ottoman Empire for control of the Maghreb, culminating in the Battle of the Three Kings (1578)."
+      },
+    ],
+  },
+  { id:'ottoman',label:'OTTOMAN\nALGIERS',
+    rows:[
+      [
+        { s:1481,e:1512,c:'#8c0818',lbl:'Bayezid II',
+          name:'Bayezid II',per:'r. 1481 – 1512',dyn:'Ottoman Empire',
+          wiki:'https://en.wikipedia.org/wiki/Bayezid_II',
+          desc:"Ottoman sultan called 'the Saint' for his piety. He welcomed Jews and Moors expelled from Spain (1492). Deposed by his son Selim I."
+        },
+        { s:1512,e:1520,c:'#8c0818',lbl:'Selim I — The Grim',
+          name:'Selim I (Yavuz — The Grim)',per:'r. 1512 – 1520',dyn:'Ottoman Empire',
+          wiki:'https://en.wikipedia.org/wiki/Selim_I',
+          desc:"Quadrupled the size of the empire in eight years: defeated the Safavids at Chaldiran (1514), conquered Egypt and ended the Mamluks (1517). Master of the Holy Places, he assumed the title of Caliph of Islam. Father of Suleiman the Magnificent."
+        },
+        { s:1520,e:1557,c:'#a81020',lbl:'Suleiman I — The Magnificent',
+          name:'Suleiman I — The Magnificent (Al-Qanuni)',per:'r. 1520 – 1566',dyn:'Ottoman Empire',
+          wiki:'https://en.wikipedia.org/wiki/Suleiman_the_Magnificent',
+          desc:"The apogee of the Ottoman Empire. Lawgiver (Al-Qanuni), conqueror (Siege of Vienna 1529, Budapest, Rhodes…), patron of the arts. Allied with Francis I against Charles V (1536). Husband of Hürrem Sultan (Roxelana)."
+        },
+      ],
+      [
+        { s:1516,e:1546,c:'#b02020',lbl:"Barbarossa — Regency of Algiers",
+          name:"Hayreddin Barbarossa",per:'c. 1516 – 1546',dyn:"Ottoman Regency of Algiers",
+          wiki:'https://en.wikipedia.org/wiki/Hayreddin_Barbarossa',
+          desc:"Corsair turned Ottoman grand admiral. Barbarossa established the Regency of Algiers under Ottoman suzerainty. Algiers became the leading naval power in the western Mediterranean. His victory at Preveza (1538) established Ottoman dominance at sea for thirty years."
+        },
+      ],
+    ],
+    events:[
+      { y:1529,lbl:'Vienna',name:"1st Siege of Vienna",per:'1529',
+        wiki:'https://en.wikipedia.org/wiki/Siege_of_Vienna_(1529)',
+        desc:"Suleiman the Magnificent besieged Vienna but failed to take it. The north-western limit of Ottoman expansion was reached. Europe was durably impressed by Ottoman power."
+      },
+      { y:1538,lbl:'Preveza',name:"Battle of Preveza",per:'1538',
+        wiki:'https://en.wikipedia.org/wiki/Battle_of_Preveza',
+        desc:"Major Ottoman naval victory by Barbarossa over the Holy League coalition. Ottoman dominance in the eastern and central Mediterranean for the following thirty years."
+      },
+    ],
+  },
+  { id:'espagne',label:'SPAIN\nPORTUGAL',
+    rows:[
+      [
+        { s:1480,e:1516,c:'#8a5808',lbl:'Ferdinand & Isabella — Catholic Monarchs',
+          name:'Ferdinand & Isabella — Catholic Monarchs',per:'r. 1479/1474 – 1516',dyn:'Crown of Spain',
+          wiki:'https://en.wikipedia.org/wiki/Catholic_Monarchs_of_Spain',
+          desc:"The Catholic Monarchs unified Spain, funded Christopher Columbus (1492), took Granada (end of the Reconquista), established the Inquisition, and occupied several Moroccan ports: Melilla (1497), Mers el-Kébir (1505), Oran (1509)..."
+        },
+        { s:1516,e:1557,c:'#c87810',lbl:"Charles V — Holy Roman Emperor",
+          name:'Charles V',per:'r. 1516 – 1556',dyn:'Habsburg',
+          wiki:'https://en.wikipedia.org/wiki/Charles_V,_Holy_Roman_Emperor',
+          desc:"Master of Europe and the Americas. Inherited the crowns of Spain, Austria, and the title of Holy Roman Emperor. Defeated Francis I at Pavia (1525). Principal rival of Suleiman the Magnificent. Attempted unsuccessfully to take Algiers (1541). Abdicated in favour of his son Philip II in 1556."
+        },
+      ],
+      [
+        { s:1481,e:1495,c:'#5a3808',lbl:'John II — Portugal',
+          name:'John II of Portugal',per:'r. 1481 – 1495',dyn:'House of Aviz (Portugal)',
+          wiki:'https://en.wikipedia.org/wiki/John_II_of_Portugal',
+          desc:"Called 'the Perfect'. Consolidated African explorations and negotiated the Treaty of Tordesillas (1494) dividing the world between Spain and Portugal."
+        },
+        { s:1495,e:1521,c:'#7a4c10',lbl:"Manuel I — Portugal",
+          name:'Manuel I of Portugal',per:'r. 1495 – 1521',dyn:'House of Aviz (Portugal)',
+          wiki:'https://en.wikipedia.org/wiki/Manuel_I_of_Portugal',
+          desc:"Peak of the Portuguese colonial empire. Vasco da Gama rounded Africa (1498), opening the sea route to India. Occupation of Moroccan ports: Agadir (1505), Safi (1508), Azemmour (1513)... Expulsion of Jews from Portugal in 1496."
+        },
+        { s:1521,e:1557,c:'#5a3808',lbl:"John III — Portugal",
+          name:'John III of Portugal',per:'r. 1521 – 1557',dyn:'House of Aviz (Portugal)',
+          wiki:'https://en.wikipedia.org/wiki/John_III_of_Portugal',
+          desc:"His reign saw the gradual retreat of Portuguese positions in Morocco before the Saadian advance. He lost Agadir in 1541, then Safi, Azemmour, and Assilah (1549). He concentrated Portuguese resources on Brazil and the Indies."
+        },
+      ],
+    ],
+    events:[
+      { y:1492,lbl:'Granada / Americas',name:"Fall of Granada & Discovery of the Americas",per:'1492',
+        wiki:'https://en.wikipedia.org/wiki/1492_in_history',
+        desc:"A pivotal year: the fall of Granada (end of the Spanish Reconquista), Columbus's discovery of the Americas, and the expulsion of Jews from Spain. The birth of a new world whose consequences Morocco would feel for generations."
+      },
+      { y:1525,lbl:'Pavia',name:"Battle of Pavia",per:'1525',
+        wiki:'https://en.wikipedia.org/wiki/Battle_of_Pavia_(1525)',
+        desc:"Charles V crushes Francis I, who was taken prisoner. Habsburg hegemony in Italy and Europe. This defeat pushed Francis I towards the Franco-Ottoman alliance."
+      },
+      { y:1541,lbl:"Algiers — Failure",name:"Charles V's failed attack on Algiers",per:'1541',
+        wiki:'https://en.wikipedia.org/wiki/Algiers_expedition_(1541)',
+        desc:"Charles V's great expedition against Algiers ended in disaster when a storm destroyed a large part of the fleet. End of Spanish ambitions in North Africa."
+      },
+    ],
+  },
+  { id:'france',label:'FRANCE\nENGLAND',
+    rows:[
+      [
+        { s:1480,e:1483,c:'#183888',lbl:'Louis XI',name:'Louis XI',per:'r. 1461 – 1483',dyn:'House of Valois (France)',wiki:'https://en.wikipedia.org/wiki/Louis_XI_of_France',desc:"The Universal Spider. Consolidated French monarchy and prepared the modern state."},
+        { s:1483,e:1498,c:'#183888',lbl:'Charles VIII',name:'Charles VIII',per:'r. 1483 – 1498',dyn:'House of Valois (France)',wiki:'https://en.wikipedia.org/wiki/Charles_VIII_of_France',desc:"Launched the Italian Wars (1494). Died prematurely in an accident at Amboise."},
+        { s:1498,e:1515,c:'#183888',lbl:'Louis XII',name:'Louis XII',per:'r. 1498 – 1515',dyn:'House of Valois-Orléans (France)',wiki:'https://en.wikipedia.org/wiki/Louis_XII_of_France',desc:"Father of the People. Continued the Italian Wars with mixed results."},
+        { s:1515,e:1547,c:'#2248b0',lbl:'Francis I — Renaissance King',
+          name:'Francis I',per:'r. 1515 – 1547',dyn:'House of Valois-Angoulême (France)',
+          wiki:'https://en.wikipedia.org/wiki/Francis_I_of_France',
+          desc:"King of the French Renaissance. Patron of the arts (Leonardo da Vinci at Amboise). Defeated at Pavia (1525), taken prisoner. Concluded the Franco-Ottoman Alliance with Suleiman the Magnificent (1536) — the first formal alliance between a Christian and a Muslim state."
+        },
+        { s:1547,e:1557,c:'#183888',lbl:'Henry II',name:'Henry II',per:'r. 1547 – 1559',dyn:'House of Valois-Angoulême (France)',wiki:'https://en.wikipedia.org/wiki/Henry_II_of_France',desc:"Continued his father's anti-Habsburg policy. Husband of Catherine de' Medici. Died in a jousting accident in 1559."},
+      ],
+      [
+        { s:1485,e:1509,c:'#282078',lbl:'Henry VII — England',name:'Henry VII',per:'r. 1485 – 1509',dyn:'House of Tudor (England)',wiki:'https://en.wikipedia.org/wiki/Henry_VII_of_England',desc:"Founder of the Tudor dynasty. Ended the Wars of the Roses."},
+        { s:1509,e:1547,c:'#382898',lbl:'Henry VIII — England',
+          name:'Henry VIII',per:'r. 1509 – 1547',dyn:'House of Tudor (England)',
+          wiki:'https://en.wikipedia.org/wiki/Henry_VIII',
+          desc:"Created the Church of England to annul his marriage to Catherine of Aragon. Six wives, two of whom were beheaded. Met Francis I at the Field of the Cloth of Gold (1520). Break with Rome (1534)."
+        },
+        { s:1547,e:1553,c:'#282078',lbl:"Edward VI",name:'Edward VI',per:'r. 1547 – 1553',dyn:'House of Tudor (England)',wiki:'https://en.wikipedia.org/wiki/Edward_VI_of_England',desc:"Child king under regency. Died at 15."},
+        { s:1553,e:1557,c:'#282078',lbl:"Mary I",name:"Mary I (Bloody Mary)",per:'r. 1553 – 1558',dyn:'House of Tudor (England)',wiki:'https://en.wikipedia.org/wiki/Mary_I_of_England',desc:"First queen regnant of England. Attempted to restore Catholicism. Married Philip II of Spain, son of Charles V."},
+      ],
+    ],
+    events:[
+      { y:1520,lbl:"Cloth of Gold",name:"Field of the Cloth of Gold",per:'1520',
+        wiki:"https://en.wikipedia.org/wiki/Field_of_the_Cloth_of_Gold",
+        desc:"A lavish diplomatic meeting between Francis I and Henry VIII near Calais. A symbol of Renaissance royal luxury — two weeks of feasting and tournaments."
+      },
+      { y:1536,lbl:'Franco-Ottoman Alliance',name:"Franco-Ottoman Alliance",per:'1536',
+        wiki:'https://en.wikipedia.org/wiki/Franco-Ottoman_alliance',
+        desc:"Treaty between Francis I and Suleiman the Magnificent — military and commercial cooperation against Charles V. The first formal alliance between a Christian state and a Muslim state. A scandal throughout Christian Europe."
+      },
+    ],
+  },
+  { id:'figures',label:'KEY\nFIGURES',
+    rows:[
+      [
+        { s:1494,e:1554,c:'#5a208a',lbl:"Leo Africanus",
+          name:"Leo Africanus (Hassan al-Wazzan)",per:'c. 1494 – c. 1554',dyn:'Geographer, diplomat, humanist',
+          wiki:"https://en.wikipedia.org/wiki/Leo_Africanus",
+          desc:"Born in Granada, raised in Fez, diplomat in the service of the Wattasids. Captured by pirates in 1520, given as a gift to Pope Leo X and baptised 'Johannes Leo'. He wrote the Description of Africa (1526), a key source for the history of medieval North Africa. A figure of civilisational dialogue present in Anas Chraïbi's novel."
+        },
+        { s:1519,e:1557,c:'#8840a8',lbl:'Hürrem Sultan (Roxelana)',
+          name:'Hürrem Sultan (Roxelana)',per:'c. 1505 – 1558',dyn:'Legal wife of Suleiman I',
+          wiki:'https://en.wikipedia.org/wiki/Hurrem_Sultan',
+          desc:"A slave of Ukrainian or Polish origin, who became the favourite and then the legal wife of Suleiman the Magnificent — the first in Ottoman history. A formidable political woman and patron of major architectural works in Istanbul. A central figure in historian Jocelyne Dakhlia's work on Ottoman harems."
+        },
+      ],
+      [
+        { s:1480,e:1549,c:'#8a5808',lbl:"Yahya ibn Ta'foufout",
+          name:"Yahya ibn Ta'foufout",per:'c. 1480 – c. 1549',dyn:'Wattasid Governor of Salé-Rabat',
+          wiki:'',
+          desc:"Last Wattasid governor of the Salé and Rabat region. The historical figure at the heart of Anas Chraïbi's novel 'Je te donnerai Marrakech'. Caught between loyalty to the declining Wattasids, pressure from the Saadians in the South, and Portuguese ambitions on the Moroccan coast."
+        },
+      ],
+    ],
+    events:[],
+  },
+];
+
+const LEGEND_DATA=[
+  {c:'#1555a0',lbl:'Wattasids'},{c:'#0e7040',lbl:'Saadians'},
+  {c:'#8c0818',lbl:'Ottoman Empire'},{c:'#b02020',lbl:'Algiers'},
+  {c:'#8a5808',lbl:'Spain'},{c:'#5a3808',lbl:'Portugal'},
+  {c:'#183888',lbl:'France'},{c:'#282078',lbl:'England'},
+  {c:'#5a208a',lbl:'Key Figures'},
+];
+
+function el(tag,cls){const e=document.createElement(tag);if(cls)e.className=cls;return e;}
+
+function build(){
+  const leg=document.getElementById('legend');
+  LEGEND_DATA.forEach(d=>{
+    const li=el('div','li');
+    li.innerHTML=`<span class="ls" style="background:${d.c}"></span>${d.lbl}`;
+    leg.appendChild(li);
+  });
+  const tli=document.getElementById('tli');
+  tli.style.width=(LW+TW+60)+'px';
+  tli.appendChild(buildAxis());
+  POWERS.forEach((p,pi)=>tli.appendChild(buildRow(p,pi)));
+}
+
+function buildAxis(){
+  const row=el('div','row ax-row');
+  const rl=el('div','rl');
+  rl.innerHTML=`<div class="rlt" style="color:var(--gold)">PERIOD</div>`;
+  row.appendChild(rl);
+  const rc=el('div','rc');
+  rc.style.width=(TW+60)+'px';
+  rc.style.height='44px';
+  rc.style.background='var(--panel2)';
+  for(let yr=S;yr<=E+1;yr++){
+    const ym=el('div','ym '+(yr%10===0?'dec':yr%5===0?'fiv':'sin'));
+    ym.style.left=yx(yr)+'px';
+    const isDec=yr%10===0,isFiv=yr%5===0;
+    ym.innerHTML=`<div class="yt"></div>${(isDec||isFiv)?`<div class="yl">${yr}</div>`:''}`;
+    rc.appendChild(ym);
+  }
+  row.appendChild(rc);
+  return row;
+}
+
+function buildRow(p,pi){
+  const nsr=p.rows.length;
+  const hasEvt=p.events.length>0;
+  const BH=33,BG=7,PT=10,PB=10;
+  const EH=hasEvt?30:0,EM=hasEvt?8:0;
+  const rowH=PT+nsr*(BH+BG)-BG+EM+EH+PB;
+  const row=el('div','row');
+  const rl=el('div','rl');
+  rl.innerHTML=`<div class="rlt">${p.label.replace('\n','<br>')}</div>`;
+  row.appendChild(rl);
+  const rc=el('div','rc');
+  rc.style.width=(TW+60)+'px';
+  rc.style.height=rowH+'px';
+  rc.style.background=pi%2===0?'rgba(255,255,255,.6)':'rgba(240,232,210,.4)';
+  for(let yr=S;yr<=E;yr+=10){
+    const gl=el('div','gl');
+    gl.style.cssText=`left:${yx(yr)}px;height:${rowH}px;background:rgba(0,0,0,.06)`;
+    rc.appendChild(gl);
+  }
+  p.rows.forEach((sr,si)=>{
+    const barTop=PT+si*(BH+BG);
+    sr.forEach(ruler=>{
+      const bw=Math.max(yw(ruler.s,ruler.e)-2,2);
+      const bx=yx(ruler.s)+1;
+      if(bw<=0)return;
+      const bar=el('div','rb');
+      bar.style.cssText=`left:${bx}px;top:${barTop}px;width:${bw}px;height:${BH}px;background:${ruler.c}`;
+      if(bw>55)bar.innerHTML=`<span class="rbl">${ruler.lbl}</span>`;
+      bar.title=ruler.name;
+      bar.addEventListener('click',()=>openModal({per:ruler.per,name:ruler.name,dyn:ruler.dyn,c:ruler.c,wiki:ruler.wiki,desc:ruler.desc}));
+      rc.appendChild(bar);
+    });
+  });
+  if(hasEvt){
+    const evtTop=PT+nsr*(BH+BG)-BG+EM;
+    p.events.forEach(evt=>{
+      const ex=yx(evt.y);
+      const vl=el('div','evl');
+      vl.style.cssText=`left:${ex}px;height:${rowH}px`;
+      rc.appendChild(vl);
+      const evm=el('div','evm');
+      evm.style.cssText=`left:${ex-4}px;top:${evtTop}px;width:16px;height:${EH}px`;
+      evm.appendChild(el('div','evd'));
+      const etxt=el('div','evtxt');
+      etxt.style.cssText=`top:${EH-4}px`;
+      etxt.textContent=evt.lbl;
+      evm.appendChild(etxt);
+      evm.addEventListener('click',()=>openModal({per:evt.per,name:evt.name,dyn:'',c:'#7a5a10',wiki:evt.wiki,desc:evt.desc}));
+      rc.appendChild(evm);
+    });
+  }
+  row.appendChild(rc);
+  return row;
+}
+
+async function fetchWikiImage(wikiUrl){
+  if(!wikiUrl) return null;
+  try{
+    const title=decodeURIComponent(wikiUrl.split('/wiki/')[1]);
+    const lang=wikiUrl.includes('fr.wikipedia')?'fr':wikiUrl.includes('es.wikipedia')?'es':'en';
+    const res=await fetch(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
+    if(!res.ok) return null;
+    const data=await res.json();
+    return data.thumbnail?.source||null;
+  }catch{return null;}
+}
+
+function openModal(d){
+  document.getElementById('mper').textContent=d.per||'';
+  document.getElementById('mnam').textContent=d.name;
+  document.getElementById('mdyn').textContent=d.dyn;
+  document.getElementById('mcol').style.background=d.c;
+  document.getElementById('mdesc').textContent=d.desc;
+  const wk=document.getElementById('mwk');
+  if(d.wiki){wk.href=d.wiki;wk.style.display='inline-flex';}
+  else{wk.style.display='none';}
+  // Image
+  const wrap=document.getElementById('mimg-wrap');
+  const spinner=document.getElementById('mimg-spinner');
+  const img=document.getElementById('mimg');
+  img.style.display='none';
+  img.src='';
+  if(d.wiki){
+    wrap.className='mimg-wrap visible';
+    spinner.style.display='flex';
+    fetchWikiImage(d.wiki).then(src=>{
+      if(src){
+        img.onload=()=>{spinner.style.display='none';img.style.display='block';};
+        img.onerror=()=>{wrap.className='mimg-wrap';};
+        img.src=src;
+      } else {
+        wrap.className='mimg-wrap';
+      }
+    });
+  } else {
+    wrap.className='mimg-wrap';
+  }
+  document.getElementById('mbg').classList.add('open');
+}
+function closeModal(){document.getElementById('mbg').classList.remove('open');}
+document.getElementById('mclo').addEventListener('click',closeModal);
+document.getElementById('mbg').addEventListener('click',e=>{if(e.target===document.getElementById('mbg'))closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+(function(){
+  const w=document.getElementById('tlw');
+  let down=false,sx,sl;
+  w.addEventListener('mousedown',e=>{if(e.target.closest('.rb')||e.target.closest('.evm'))return;down=true;sx=e.pageX-w.offsetLeft;sl=w.scrollLeft;w.style.cursor='grabbing';});
+  document.addEventListener('mouseup',()=>{down=false;document.getElementById('tlw').style.cursor='default';});
+  w.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();w.scrollLeft=sl-(e.pageX-w.offsetLeft-sx)*1.4;});
+})();
+build();
+</script>
+</body>
+</html>
