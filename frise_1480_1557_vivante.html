@@ -101,6 +101,28 @@ body{background:#f5f0e8;color:#1a1208;font-family:'Crimson Text',Georgia,serif;m
 .pft{font-size:.75rem;color:var(--text-f);font-style:italic}
 .pfl{color:var(--gold-d);text-decoration:none;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.1em}
 .pfl:hover{color:var(--gold-b)}
+
+/* ── IMAGE ZOOM ON HOVER ─────────────────────────────────────── */
+#img-zoom{
+  position:fixed;z-index:9000;pointer-events:none;
+  display:none;flex-direction:column;align-items:center;
+  filter:drop-shadow(0 8px 28px rgba(0,0,0,.55));
+}
+#img-zoom img{
+  width:240px;height:300px;object-fit:cover;object-position:top center;
+  border-radius:5px;border:2px solid var(--border2);
+  filter:sepia(8%) contrast(1.08);
+  transition:opacity .18s;
+}
+#img-zoom.landscape img{
+  width:340px;height:220px;object-position:center;
+}
+#img-zoom-cap{
+  background:rgba(26,18,8,.82);color:var(--gold-f);
+  font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.08em;
+  padding:5px 12px;border-radius:0 0 4px 4px;text-align:center;
+  max-width:300px;line-height:1.4;
+}
 </style>
 </head>
 <body>
@@ -475,7 +497,9 @@ function buildRow(p,pi){
       if(bw>=50){
         const port=el('div','rb-portrait');
         port.dataset.wiki=ruler.wiki||'';
-        if(ruler.customImg)port.dataset.custom=ruler.customImg;
+        // Custom image : either explicit customImg or wiki-keyed CUSTOM entry
+        if(ruler.customImg) port.dataset.custom=ruler.customImg;
+        else if(ruler.wiki&&CUSTOM[ruler.wiki]) port.dataset.custom=ruler.wiki;
         // Placeholder icon
         port.innerHTML=`<div class="rb-portrait-placeholder"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>`;
         bar.appendChild(port);
@@ -508,9 +532,8 @@ function buildRow(p,pi){
       // Event portrait vignette (for events with wiki)
       if(evt.wiki||evt.customImg){
         const ep=el('div','ev-portrait');
-        ep.dataset.wiki=evt.wiki||'';
-        const _ci=evt.customImg||'';
-        ep.innerHTML=`<img data-wiki="${evt.wiki||''}" ${_ci?`data-custom="${_ci}"`:''}  style="display:none">`;
+        const _ck=evt.customImg||(evt.wiki&&CUSTOM[evt.wiki]?evt.wiki:'');
+        ep.innerHTML=`<img data-wiki="${evt.wiki||''}" ${_ck?`data-custom="${_ck}"`:''}  style="display:none">`;
         evm.appendChild(ep);
       }
 
@@ -559,8 +582,9 @@ async function prefetchAll(){
   for(const wiki of wikis){
     fetchWikiImg(wiki).then(src=>{
       if(!src)return;
-      // Inject into bars
+      // Inject into bars (skip if already handled by data-custom)
       document.querySelectorAll(`.rb-portrait[data-wiki="${CSS.escape(wiki)}"]`).forEach(port=>{
+        if(port.dataset.custom)return;
         const img=document.createElement('img');
         img.src=src;
         img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(20%) contrast(1.05)';
@@ -571,6 +595,7 @@ async function prefetchAll(){
       });
       // Inject into event portraits
       document.querySelectorAll(`.ev-portrait img[data-wiki="${CSS.escape(wiki)}"]`).forEach(img=>{
+        if(img.dataset.custom)return;
         img.src=src;
         img.onload=()=>{img.style.display='block';};
       });
@@ -627,6 +652,67 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 })();
 
 build();
+</script>
+
+<div id="img-zoom"><img id="img-zoom-img" src="" alt=""><div id="img-zoom-cap"></div></div>
+
+<script>
+// ── ZOOM ON HOVER ─────────────────────────────────────────────────────────
+const zoomBox = document.getElementById('img-zoom');
+const zoomImg = document.getElementById('img-zoom-img');
+const zoomCap = document.getElementById('img-zoom-cap');
+let zoomTimer;
+
+function showZoom(src, name, isLandscape, evt){
+  clearTimeout(zoomTimer);
+  if(!src)return;
+  zoomImg.src = src;
+  zoomCap.textContent = name;
+  zoomBox.className = isLandscape ? 'landscape' : '';
+  zoomBox.style.display = 'flex';
+  moveZoom(evt);
+}
+function moveZoom(evt){
+  const W = window.innerWidth, H = window.innerHeight;
+  const bw = zoomBox.className === 'landscape' ? 304 : 224;
+  const bh = zoomBox.className === 'landscape' ? 230 : 310;
+  let x = evt.clientX + 18;
+  let y = evt.clientY - bh/2;
+  if(x + bw > W - 10) x = evt.clientX - bw - 18;
+  if(y < 10) y = 10;
+  if(y + bh > H - 10) y = H - bh - 10;
+  zoomBox.style.left = x + 'px';
+  zoomBox.style.top  = y + 'px';
+}
+function hideZoom(){
+  zoomTimer = setTimeout(()=>{ zoomBox.style.display='none'; }, 120);
+}
+
+document.addEventListener('mouseover', e => {
+  const bar = e.target.closest('.rb');
+  const evm = e.target.closest('.evm');
+  if(bar){
+    const port = bar.querySelector('.rb-portrait img');
+    if(!port || !port.src) return;
+    const name = bar.title || '';
+    const isL = port.naturalWidth > 0 && port.naturalWidth > port.naturalHeight;
+    showZoom(port.src, name, isL, e);
+  } else if(evm){
+    const img = evm.querySelector('.ev-portrait img');
+    if(!img || !img.src) return;
+    const name = evm.querySelector('.evtxt')?.textContent || '';
+    const isL = img.naturalWidth > 0 && img.naturalWidth > img.naturalHeight;
+    showZoom(img.src, name, isL, e);
+  } else {
+    hideZoom();
+  }
+});
+document.addEventListener('mousemove', e => {
+  if(zoomBox.style.display === 'flex') moveZoom(e);
+});
+document.addEventListener('mouseout', e => {
+  if(!e.target.closest('.rb') && !e.target.closest('.evm')) hideZoom();
+});
 </script>
 </body>
 </html>
