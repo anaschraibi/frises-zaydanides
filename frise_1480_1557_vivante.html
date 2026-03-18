@@ -186,7 +186,7 @@ const CUSTOM={
   '__pavie__':GITHUB+'The_Battle_of_Pavia__1525__by_Rupert_Heller__-_Nationalmuseum__Stockholm_copie.png',
   '__drapdor__':GITHUB+'drapdor.png',
   '__maamora__':GITHUB+'Maamora1.png',
-  '__agadir__':GITHUB+'maamora.png',
+  '__agadir__':GITHUB+'capdegue.png',
   '__safi__':GITHUB+'SAFI.png',
   '__assassinat__':GITHUB+'eglise_safi.png',
 };
@@ -557,45 +557,52 @@ function buildRow(p,pi){
 
 // ── IMAGE INJECTION ───────────────────────────────────
 async function prefetchAll(){
-  // Inject GitHub custom images immediately (bars + events)
-  setTimeout(()=>{
+  // ── A. Images custom (GitHub) — injectées immédiatement après build ─────
+  function injectCustom(){
+    // Barres
     document.querySelectorAll('.rb-portrait[data-custom]').forEach(port=>{
-      const src=CUSTOM[port.dataset.custom];
-      if(!src)return;
+      if(port.querySelector('img')) return; // déjà injectée
+      const key=port.dataset.custom;
+      const src=CUSTOM[key];
+      if(!src) return;
       const img=document.createElement('img');
       img.src=src;
       img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(15%) contrast(1.05);position:absolute;inset:0';
       img.onload=()=>{port.innerHTML='';port.appendChild(img);};
     });
+    // Événements
     document.querySelectorAll('.ev-portrait img[data-custom]').forEach(img=>{
+      if(img.src) return;
       const src=CUSTOM[img.dataset.custom];
       if(src){img.src=src;img.onload=()=>{img.style.display='block';};}
     });
-  },100);
-  // Collect all unique wiki URLs
+  }
+  // Essais multiples pour être sûr que le DOM est prêt
+  injectCustom();
+  setTimeout(injectCustom, 300);
+  setTimeout(injectCustom, 800);
+
+  // ── B. Images Wikipedia — pour les personnages sans image custom ──────────
   const wikis=new Set();
   POWERS.forEach(p=>{
     p.rows.forEach(sr=>sr.forEach(r=>{if(r.wiki)wikis.add(r.wiki);}));
     p.events.forEach(e=>{if(e.wiki)wikis.add(e.wiki);});
   });
-  // Fetch and inject
   for(const wiki of wikis){
+    if(CUSTOM[wiki]) continue; // déjà géré par custom
     fetchWikiImg(wiki).then(src=>{
       if(!src)return;
-      // Inject into bars (skip if already handled by data-custom)
+      // Barres sans image custom
       document.querySelectorAll(`.rb-portrait[data-wiki="${CSS.escape(wiki)}"]`).forEach(port=>{
-        if(port.dataset.custom)return;
+        if(port.dataset.custom||port.querySelector('img')) return;
         const img=document.createElement('img');
         img.src=src;
-        img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(20%) contrast(1.05)';
-        img.onload=()=>{
-          port.innerHTML='';
-          port.appendChild(img);
-        };
+        img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(20%) contrast(1.05);position:absolute;inset:0';
+        img.onload=()=>{port.innerHTML='';port.appendChild(img);};
       });
-      // Inject into event portraits
+      // Événements sans image custom
       document.querySelectorAll(`.ev-portrait img[data-wiki="${CSS.escape(wiki)}"]`).forEach(img=>{
-        if(img.dataset.custom)return;
+        if(img.dataset.custom||img.src) return;
         img.src=src;
         img.onload=()=>{img.style.display='block';};
       });
@@ -603,116 +610,3 @@ async function prefetchAll(){
   }
 }
 
-// ── MODAL ─────────────────────────────────────────────
-function openModal(d){
-  document.getElementById('mper').textContent=d.per||'';
-  document.getElementById('mnam').textContent=d.name;
-  document.getElementById('mdyn').textContent=d.dyn||'';
-  document.getElementById('mcol').style.background=d.c;
-  document.getElementById('mdesc').textContent=d.desc;
-  const wk=document.getElementById('mwk');
-  if(d.wiki){wk.href=d.wiki;wk.style.display='inline-flex';}
-  else{wk.style.display='none';}
-
-  // Modal image
-  const imgBox=document.getElementById('mhead-img');
-  const spinner=document.getElementById('mimg-spinner');
-  // Reset
-  imgBox.querySelectorAll('img').forEach(i=>i.remove());
-  spinner.textContent='';
-  imgBox.style.background='var(--panel)';
-
-  if(d.wiki||d.customImg){
-    spinner.textContent='chargement…';
-    fetchWikiImg(d.wiki,d.modalImg||d.customImg).then(src=>{
-      spinner.textContent='';
-      if(src){
-        const img=document.createElement('img');
-        img.src=src;
-        img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;display:none;position:absolute;inset:0';
-        img.onload=()=>{img.style.display='block';};
-        imgBox.appendChild(img);
-      }
-    });
-  }
-  document.getElementById('mbg').classList.add('open');
-}
-function closeModal(){document.getElementById('mbg').classList.remove('open');}
-document.getElementById('mclo').addEventListener('click',closeModal);
-document.getElementById('mbg').addEventListener('click',e=>{if(e.target===document.getElementById('mbg'))closeModal();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
-
-// ── DRAG SCROLL ───────────────────────────────────────
-(function(){
-  const w=document.getElementById('tlw');
-  let down=false,sx,sl;
-  w.addEventListener('mousedown',e=>{if(e.target.closest('.rb')||e.target.closest('.evm'))return;down=true;sx=e.pageX-w.offsetLeft;sl=w.scrollLeft;w.style.cursor='grabbing';});
-  document.addEventListener('mouseup',()=>{down=false;document.getElementById('tlw').style.cursor='default';});
-  w.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();w.scrollLeft=sl-(e.pageX-w.offsetLeft-sx)*1.4;});
-})();
-
-build();
-</script>
-
-<div id="img-zoom"><img id="img-zoom-img" src="" alt=""><div id="img-zoom-cap"></div></div>
-
-<script>
-// ── ZOOM ON HOVER ─────────────────────────────────────────────────────────
-const zoomBox = document.getElementById('img-zoom');
-const zoomImg = document.getElementById('img-zoom-img');
-const zoomCap = document.getElementById('img-zoom-cap');
-let zoomTimer;
-
-function showZoom(src, name, isLandscape, evt){
-  clearTimeout(zoomTimer);
-  if(!src)return;
-  zoomImg.src = src;
-  zoomCap.textContent = name;
-  zoomBox.className = isLandscape ? 'landscape' : '';
-  zoomBox.style.display = 'flex';
-  moveZoom(evt);
-}
-function moveZoom(evt){
-  const W = window.innerWidth, H = window.innerHeight;
-  const bw = zoomBox.className === 'landscape' ? 304 : 224;
-  const bh = zoomBox.className === 'landscape' ? 230 : 310;
-  let x = evt.clientX + 18;
-  let y = evt.clientY - bh/2;
-  if(x + bw > W - 10) x = evt.clientX - bw - 18;
-  if(y < 10) y = 10;
-  if(y + bh > H - 10) y = H - bh - 10;
-  zoomBox.style.left = x + 'px';
-  zoomBox.style.top  = y + 'px';
-}
-function hideZoom(){
-  zoomTimer = setTimeout(()=>{ zoomBox.style.display='none'; }, 120);
-}
-
-document.addEventListener('mouseover', e => {
-  const bar = e.target.closest('.rb');
-  const evm = e.target.closest('.evm');
-  if(bar){
-    const port = bar.querySelector('.rb-portrait img');
-    if(!port || !port.src) return;
-    const name = bar.title || '';
-    const isL = port.naturalWidth > 0 && port.naturalWidth > port.naturalHeight;
-    showZoom(port.src, name, isL, e);
-  } else if(evm){
-    const img = evm.querySelector('.ev-portrait img');
-    if(!img || !img.src) return;
-    const name = evm.querySelector('.evtxt')?.textContent || '';
-    const isL = img.naturalWidth > 0 && img.naturalWidth > img.naturalHeight;
-    showZoom(img.src, name, isL, e);
-  } else {
-    hideZoom();
-  }
-});
-document.addEventListener('mousemove', e => {
-  if(zoomBox.style.display === 'flex') moveZoom(e);
-});
-document.addEventListener('mouseout', e => {
-  if(!e.target.closest('.rb') && !e.target.closest('.evm')) hideZoom();
-});
-</script>
-</body>
-</html>
