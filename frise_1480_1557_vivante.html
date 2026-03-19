@@ -102,27 +102,10 @@ body{background:#f5f0e8;color:#1a1208;font-family:'Crimson Text',Georgia,serif;m
 .pfl{color:var(--gold-d);text-decoration:none;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.1em}
 .pfl:hover{color:var(--gold-b)}
 
-/* ── IMAGE ZOOM ON HOVER ─────────────────────────────────────── */
-#img-zoom{
-  position:fixed;z-index:9000;pointer-events:none;
-  display:none;flex-direction:column;align-items:center;
-  filter:drop-shadow(0 8px 28px rgba(0,0,0,.55));
-}
-#img-zoom img{
-  width:240px;height:300px;object-fit:cover;object-position:top center;
-  border-radius:5px;border:2px solid var(--border2);
-  filter:sepia(8%) contrast(1.08);
-  transition:opacity .18s;
-}
-#img-zoom.landscape img{
-  width:340px;height:220px;object-position:center;
-}
-#img-zoom-cap{
-  background:rgba(26,18,8,.82);color:var(--gold-f);
-  font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.08em;
-  padding:5px 12px;border-radius:0 0 4px 4px;text-align:center;
-  max-width:300px;line-height:1.4;
-}
+#img-zoom{position:fixed;z-index:9000;pointer-events:none;display:none;flex-direction:column;align-items:center;filter:drop-shadow(0 8px 28px rgba(0,0,0,.5))}
+#img-zoom img{width:240px;height:300px;object-fit:cover;object-position:top center;border-radius:5px;border:2px solid var(--border2)}
+#img-zoom.landscape img{width:340px;height:220px;object-position:center}
+#img-zoom-cap{background:rgba(26,18,8,.85);color:#f0e8d0;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.08em;padding:5px 12px;border-radius:0 0 4px 4px;text-align:center;max-width:340px}
 </style>
 </head>
 <body>
@@ -177,22 +160,20 @@ const yw=(a,b)=>(b-a)*PY;
 const imgCache={};
 const GITHUB='https://anaschraibi.github.io/frises-zaydanides/';
 const CUSTOM={
-  'https://fr.wikipedia.org/wiki/Kheir-ed-Din_Barberousse':GITHUB+'kheireddine_barabarossa.png',
-  'https://fr.wikipedia.org/wiki/S%C3%A9lim_Ier':GITHUB+'selim_1er.png',
-  'https://fr.wikipedia.org/wiki/Manuel_Ier_de_Portugal':GITHUB+'Manuel.png',
-  '__yahya__':GITHUB+'yahya.png',
-  '__yahya_modal__':GITHUB+'YaHYAjeune.png',
-  '__yahjung__':GITHUB+'YaHYAjeune.png',
-  '__pavie__':GITHUB+'The_Battle_of_Pavia__1525__by_Rupert_Heller__-_Nationalmuseum__Stockholm_copie.png',
-  '__drapdor__':GITHUB+'drapdor.png',
-  '__maamora__':GITHUB+'Maamora1.png',
-  '__agadir__':GITHUB+'capdegue.png',
-  '__safi__':GITHUB+'SAFI.png',
-  '__assassinat__':GITHUB+'eglise_safi.png',
+  'https://fr.wikipedia.org/wiki/Kheir-ed-Din_Barberousse': GITHUB+'kheireddine_barabarossa.png',
+  'https://fr.wikipedia.org/wiki/S%C3%A9lim_Ier':           GITHUB+'selim_1er.png',
+  'https://fr.wikipedia.org/wiki/Manuel_Ier_de_Portugal':   GITHUB+'Manuel.png',
+  '__yahya__':      GITHUB+'yahya.png',
+  '__maamora__':    GITHUB+'Maamora1.png',
+  '__agadir__':     GITHUB+'capdegue.png',
+  '__safi__':       GITHUB+'SAFI.png',
+  '__assassinat__': GITHUB+'eglise_safi.png',
+  '__pavie__':      GITHUB+'The_Battle_of_Pavia__1525__by_Rupert_Heller__-_Nationalmuseum__Stockholm_copie.png',
+  '__drapdor__':    GITHUB+'drapdor.png',
 };
-async function fetchWikiImg(wiki,ck){
-  const _k=ck||wiki;
-  if(_k&&CUSTOM[_k])return CUSTOM[_k];
+async function fetchWikiImg(wiki,customKey){
+  const ck=customKey||wiki;
+  if(ck&&CUSTOM[ck]) return CUSTOM[ck];
   if(!wiki)return null;
   if(imgCache[wiki]!==undefined)return imgCache[wiki];
   imgCache[wiki]=null; // mark as loading
@@ -242,17 +223,17 @@ const POWERS=[
       ],
     ],
     events:[
-      { y:1515,lbl:'Maamora',name:"Victoire de la Maamora",per:'1515',customImg:'__maamora__',
+      { y:1515,lbl:'Maamora',name:"Victoire de la Maamora",per:'1515',customKey:'__maamora__',
         wiki:'https://fr.wikipedia.org/wiki/Bataille_de_la_Maamora_(1515)',
         desc:"Les Wattassides repoussent une tentative portugaise de s'emparer de la Mamora. Moment clé du roman « Je te donnerai Marrakech »."
       },
-      { y:1541,lbl:'Agadir',name:"Reprise d'Agadir",per:'1541',customImg:'__agadir__',wiki:'',
+      { y:1541,lbl:'Agadir',name:"Reprise d'Agadir",per:'1541',customKey:'__agadir__',wiki:'',
         desc:"Mohammed Echeykh arrache Agadir aux Portugais après trente ans d'occupation. Victoire stratégique capitale."
       },
-      { y:1549,lbl:'Prise de Fès',name:"Prise de Fès par les Zaydanides",per:'1549',customImg:'__safi__',wiki:'',
+      { y:1549,lbl:'Prise de Fès',name:"Prise de Fès par les Zaydanides",per:'1549',customKey:'__safi__',wiki:'',
         desc:"Mohammed Echeykh s'empare de Fès. Le Maroc est enfin unifié sous la bannière zaydanide."
       },
-      { y:1557,lbl:'Assassinat',name:"Assassinat de Mohammed Echeykh",per:'1557',customImg:'__assassinat__',
+      { y:1557,lbl:'Assassinat',name:"Assassinat de Mohammed Echeykh",per:'1557',customKey:'__assassinat__',
         wiki:'https://fr.wikipedia.org/wiki/Mohammed_ech-Cheikh',
         desc:"Assassiné par des janissaires ottomans dissimulés dans sa garde. Sa mort déclenche la longue rivalité saado-ottomane."
       },
@@ -333,7 +314,7 @@ const POWERS=[
         wiki:'https://fr.wikipedia.org/wiki/1492',
         desc:"Prise de Grenade (fin de la Reconquista), découverte des Amériques, expulsion des Juifs d'Espagne. Naissance d'un monde nouveau."
       },
-      { y:1525,lbl:'Pavie',name:"Bataille de Pavie",per:'1525',customImg:'__pavie__',
+      { y:1525,lbl:'Pavie',name:"Bataille de Pavie",per:'1525',customKey:'__pavie__',
         wiki:'https://fr.wikipedia.org/wiki/Bataille_de_Pavie',
         desc:"Charles Quint écrase François Ier, fait prisonnier. Cette défaite pousse le roi de France vers l'alliance franco-ottomane."
       },
@@ -382,7 +363,7 @@ const POWERS=[
       ],
     ],
     events:[
-      { y:1520,lbl:"Drap d'Or",name:"Camp du Drap d'Or",per:'1520',customImg:'__drapdor__',
+      { y:1520,lbl:"Drap d'Or",name:"Camp du Drap d'Or",per:'1520',customKey:'__drapdor__',
         wiki:"https://fr.wikipedia.org/wiki/Camp_du_Drap_d%27or",
         desc:"Rencontre fastueuse entre François Ier et Henri VIII. Deux semaines de fêtes et tournois."
       },
@@ -407,7 +388,7 @@ const POWERS=[
         },
       ],
       [
-        { s:1480,e:1518,c:'#8a5808',lbl:"Yahya ibn Ta'foufout",sub:'†1518',customImg:'__yahya__',modalImg:'__yahjung__',
+        { s:1480,e:1518,c:'#8a5808',lbl:"Yahya ibn Ta'foufout",sub:'†1518',customKey:'__yahya__',
           name:"Yahya ibn Ta'foufout",per:'c. 1480 – 1518',dyn:'Gouverneur wattasside de Salé-Rabat',
           wiki:'',
           desc:"Dernier gouverneur wattasside de la région de Salé et Rabat. Figure historique au cœur du roman « Je te donnerai Marrakech ». Mort en 1518, pris entre sa fidélité aux Wattassides en déclin, la pression zaydanide et les ambitions portugaises."
@@ -497,9 +478,8 @@ function buildRow(p,pi){
       if(bw>=50){
         const port=el('div','rb-portrait');
         port.dataset.wiki=ruler.wiki||'';
-        // Custom image : either explicit customImg or wiki-keyed CUSTOM entry
-        if(ruler.customImg) port.dataset.custom=ruler.customImg;
-        else if(ruler.wiki&&CUSTOM[ruler.wiki]) port.dataset.custom=ruler.wiki;
+        const _rck=ruler.customKey||(ruler.wiki&&CUSTOM[ruler.wiki]?ruler.wiki:'');
+        if(_rck) port.dataset.custom=_rck;
         // Placeholder icon
         port.innerHTML=`<div class="rb-portrait-placeholder"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>`;
         bar.appendChild(port);
@@ -530,10 +510,10 @@ function buildRow(p,pi){
       evm.style.cssText=`left:${ex-5}px;top:${evtTop}px;width:44px`;
 
       // Event portrait vignette (for events with wiki)
-      if(evt.wiki||evt.customImg){
+      if(evt.wiki){
         const ep=el('div','ev-portrait');
-        const _ck=evt.customImg||(evt.wiki&&CUSTOM[evt.wiki]?evt.wiki:'');
-        ep.innerHTML=`<img data-wiki="${evt.wiki||''}" ${_ck?`data-custom="${_ck}"`:''}  style="display:none">`;
+        ep.dataset.wiki=evt.wiki;
+        ep.innerHTML=`<img data-wiki="${evt.wiki}" style="display:none">`;
         evm.appendChild(ep);
       }
 
@@ -557,52 +537,49 @@ function buildRow(p,pi){
 
 // ── IMAGE INJECTION ───────────────────────────────────
 async function prefetchAll(){
-  // ── A. Images custom (GitHub) — injectées immédiatement après build ─────
+  // A. Images custom GitHub
   function injectCustom(){
-    // Barres
     document.querySelectorAll('.rb-portrait[data-custom]').forEach(port=>{
-      if(port.querySelector('img')) return; // déjà injectée
-      const key=port.dataset.custom;
-      const src=CUSTOM[key];
+      if(port.querySelector('img')) return;
+      const src=CUSTOM[port.dataset.custom];
       if(!src) return;
       const img=document.createElement('img');
       img.src=src;
-      img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(15%) contrast(1.05);position:absolute;inset:0';
+      img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(15%);position:absolute;inset:0';
       img.onload=()=>{port.innerHTML='';port.appendChild(img);};
     });
-    // Événements
     document.querySelectorAll('.ev-portrait img[data-custom]').forEach(img=>{
       if(img.src) return;
       const src=CUSTOM[img.dataset.custom];
       if(src){img.src=src;img.onload=()=>{img.style.display='block';};}
     });
   }
-  // Essais multiples pour être sûr que le DOM est prêt
   injectCustom();
-  setTimeout(injectCustom, 300);
-  setTimeout(injectCustom, 800);
-
-  // ── B. Images Wikipedia — pour les personnages sans image custom ──────────
+  setTimeout(injectCustom,400);
+  setTimeout(injectCustom,1000);
+  // Collect all unique wiki URLs
   const wikis=new Set();
   POWERS.forEach(p=>{
     p.rows.forEach(sr=>sr.forEach(r=>{if(r.wiki)wikis.add(r.wiki);}));
     p.events.forEach(e=>{if(e.wiki)wikis.add(e.wiki);});
   });
+  // Fetch and inject
   for(const wiki of wikis){
-    if(CUSTOM[wiki]) continue; // déjà géré par custom
     fetchWikiImg(wiki).then(src=>{
       if(!src)return;
-      // Barres sans image custom
+      // Inject into bars
       document.querySelectorAll(`.rb-portrait[data-wiki="${CSS.escape(wiki)}"]`).forEach(port=>{
         if(port.dataset.custom||port.querySelector('img')) return;
         const img=document.createElement('img');
         img.src=src;
-        img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(20%) contrast(1.05);position:absolute;inset:0';
-        img.onload=()=>{port.innerHTML='';port.appendChild(img);};
+        img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(20%) contrast(1.05)';
+        img.onload=()=>{
+          port.innerHTML='';
+          port.appendChild(img);
+        };
       });
-      // Événements sans image custom
+      // Inject into event portraits
       document.querySelectorAll(`.ev-portrait img[data-wiki="${CSS.escape(wiki)}"]`).forEach(img=>{
-        if(img.dataset.custom||img.src) return;
         img.src=src;
         img.onload=()=>{img.style.display='block';};
       });
@@ -610,3 +587,95 @@ async function prefetchAll(){
   }
 }
 
+// ── MODAL ─────────────────────────────────────────────
+function openModal(d){
+  document.getElementById('mper').textContent=d.per||'';
+  document.getElementById('mnam').textContent=d.name;
+  document.getElementById('mdyn').textContent=d.dyn||'';
+  document.getElementById('mcol').style.background=d.c;
+  document.getElementById('mdesc').textContent=d.desc;
+  const wk=document.getElementById('mwk');
+  if(d.wiki){wk.href=d.wiki;wk.style.display='inline-flex';}
+  else{wk.style.display='none';}
+
+  // Modal image
+  const imgBox=document.getElementById('mhead-img');
+  const spinner=document.getElementById('mimg-spinner');
+  // Reset
+  imgBox.querySelectorAll('img').forEach(i=>i.remove());
+  spinner.textContent='';
+  imgBox.style.background='var(--panel)';
+
+  if(d.wiki||d.customKey){
+    spinner.textContent='chargement…';
+    fetchWikiImg(d.wiki,d.customKey).then(src=>{
+      spinner.textContent='';
+      if(src){
+        const img=document.createElement('img');
+        img.src=src;
+        img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;display:none;position:absolute;inset:0';
+        img.onload=()=>{img.style.display='block';};
+        imgBox.appendChild(img);
+      }
+    });
+  }
+  document.getElementById('mbg').classList.add('open');
+}
+function closeModal(){document.getElementById('mbg').classList.remove('open');}
+document.getElementById('mclo').addEventListener('click',closeModal);
+document.getElementById('mbg').addEventListener('click',e=>{if(e.target===document.getElementById('mbg'))closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// ── DRAG SCROLL ───────────────────────────────────────
+(function(){
+  const w=document.getElementById('tlw');
+  let down=false,sx,sl;
+  w.addEventListener('mousedown',e=>{if(e.target.closest('.rb')||e.target.closest('.evm'))return;down=true;sx=e.pageX-w.offsetLeft;sl=w.scrollLeft;w.style.cursor='grabbing';});
+  document.addEventListener('mouseup',()=>{down=false;document.getElementById('tlw').style.cursor='default';});
+  w.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();w.scrollLeft=sl-(e.pageX-w.offsetLeft-sx)*1.4;});
+})();
+
+build();
+</script>
+
+<div id="img-zoom"><img id="img-zoom-img" src="" alt=""><div id="img-zoom-cap"></div></div>
+<script>
+(function(){
+  const zb=document.getElementById('img-zoom');
+  const zi=document.getElementById('img-zoom-img');
+  const zc=document.getElementById('img-zoom-cap');
+  let zt;
+  function show(src,name,land,e){
+    clearTimeout(zt);if(!src)return;
+    zi.src=src;zc.textContent=name;
+    zb.className=land?'landscape':'';
+    zb.style.display='flex';move(e);
+  }
+  function move(e){
+    const W=window.innerWidth,H=window.innerHeight;
+    const bw=zb.className==='landscape'?344:244,bh=zb.className==='landscape'?240:320;
+    let x=e.clientX+18,y=e.clientY-bh/2;
+    if(x+bw>W-10)x=e.clientX-bw-18;
+    if(y<10)y=10;if(y+bh>H-10)y=H-bh-10;
+    zb.style.left=x+'px';zb.style.top=y+'px';
+  }
+  function hide(){zt=setTimeout(()=>{zb.style.display='none';},150);}
+  document.addEventListener('mouseover',e=>{
+    const bar=e.target.closest('.rb');
+    const evm=e.target.closest('.evm');
+    if(bar){
+      const p=bar.querySelector('.rb-portrait img');
+      if(p&&p.src)show(p.src,bar.title||'',p.naturalWidth>p.naturalHeight,e);
+      else hide();
+    } else if(evm){
+      const p=evm.querySelector('.ev-portrait img');
+      if(p&&p.src)show(p.src,evm.querySelector('.evtxt')?.textContent||'',p.naturalWidth>p.naturalHeight,e);
+      else hide();
+    } else hide();
+  });
+  document.addEventListener('mousemove',e=>{if(zb.style.display==='flex')move(e);});
+  document.addEventListener('mouseout',e=>{if(!e.target.closest('.rb')&&!e.target.closest('.evm'))hide();});
+})();
+</script>
+</body>
+</html>
