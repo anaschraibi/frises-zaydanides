@@ -160,7 +160,7 @@ const yw=(a,b)=>(b-a)*PY;
 const imgCache={};
 const GITHUB='https://anaschraibi.github.io/frises-zaydanides/';
 const CUSTOM={
-  'https://fr.wikipedia.org/wiki/Kheir-ed-Din_Barberousse': GITHUB+'kheireddine_barabarossa.png',
+  'https://fr.wikipedia.org/wiki/Kheir-ed-Din_Barberousse': GITHUB+'Barberousse.png',
   'https://fr.wikipedia.org/wiki/S%C3%A9lim_Ier':           GITHUB+'selim_1er.png',
   'https://fr.wikipedia.org/wiki/Manuel_Ier_de_Portugal':   GITHUB+'Manuel.png',
   '__yahya__':      GITHUB+'yahya.png',
@@ -168,7 +168,7 @@ const CUSTOM={
   '__agadir__':     GITHUB+'capdegue.png',
   '__safi__':       GITHUB+'SAFI.png',
   '__assassinat__': GITHUB+'eglise_safi.png',
-  '__pavie__':      GITHUB+'The_Battle_of_Pavia__1525__by_Rupert_Heller__-_Nationalmuseum__Stockholm_copie.png',
+  '__pavie__':      GITHUB+'Pavie.png',
   '__drapdor__':    GITHUB+'drapdor.png',
 };
 async function fetchWikiImg(wiki,ck){
@@ -423,6 +423,10 @@ function build(){
   POWERS.forEach((p,pi)=>tli.appendChild(buildRow(p,pi)));
   // Pre-fetch all images
   prefetchAll();
+  // Inject custom images once DOM is ready
+  setTimeout(injectCustom,200);
+  setTimeout(injectCustom,600);
+  setTimeout(injectCustom,1500);
 }
 
 function buildAxis(){
@@ -536,23 +540,26 @@ function buildRow(p,pi){
 }
 
 // ── IMAGE INJECTION ───────────────────────────────────
+  // injectCustom is global
+
+function injectCustom(){
+  document.querySelectorAll('.rb-portrait[data-custom]').forEach(port=>{
+    if(port.querySelector('img'))return;
+    const src=CUSTOM[port.dataset.custom];if(!src)return;
+    const img=document.createElement('img');
+    img.src=src;
+    img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(15%);position:absolute;inset:0';
+    img.onload=()=>{port.innerHTML='';port.appendChild(img);};
+  });
+  document.querySelectorAll('.ev-portrait img[data-custom]').forEach(img=>{
+    if(img.src)return;
+    const src=CUSTOM[img.dataset.custom];
+    if(src){img.src=src;img.onload=()=>{img.style.display='block';};}
+  });
+}
+
 async function prefetchAll(){
-  function injectCustom(){
-    document.querySelectorAll('.rb-portrait[data-custom]').forEach(port=>{
-      if(port.querySelector('img'))return;
-      const src=CUSTOM[port.dataset.custom];if(!src)return;
-      const img=document.createElement('img');
-      img.src=src;
-      img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(15%);position:absolute;inset:0';
-      img.onload=()=>{port.innerHTML='';port.appendChild(img);};
-    });
-    document.querySelectorAll('.ev-portrait img[data-custom]').forEach(img=>{
-      if(img.src)return;
-      const src=CUSTOM[img.dataset.custom];
-      if(src){img.src=src;img.onload=()=>{img.style.display='block';};}
-    });
-  }
-  injectCustom();setTimeout(injectCustom,400);setTimeout(injectCustom,1000);
+  // Custom images injected after build() creates the DOM
   // Collect all unique wiki URLs
   const wikis=new Set();
   POWERS.forEach(p=>{
