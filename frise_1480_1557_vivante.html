@@ -105,7 +105,7 @@ body{background:#f5f0e8;color:#1a1208;font-family:'Crimson Text',Georgia,serif;m
 #img-zoom{position:fixed;z-index:9000;pointer-events:none;display:none;flex-direction:column;align-items:center;filter:drop-shadow(0 8px 28px rgba(0,0,0,.5))}
 #img-zoom img{width:240px;height:300px;object-fit:cover;object-position:top center;border-radius:5px;border:2px solid var(--border2)}
 #img-zoom.landscape img{width:340px;height:220px;object-position:center}
-#img-zoom-cap{background:rgba(26,18,8,.85);color:#f0e8d0;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.08em;padding:5px 12px;border-radius:0 0 4px 4px;text-align:center;max-width:340px}
+#img-zoom-cap{background:rgba(26,18,8,.85);color:#f0e8d0;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.08em;padding:5px 12px;border-radius:0 0 4px 4px;text-align:center;max-width:340px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -171,9 +171,9 @@ const CUSTOM={
   '__pavie__':      GITHUB+'The_Battle_of_Pavia__1525__by_Rupert_Heller__-_Nationalmuseum__Stockholm_copie.png',
   '__drapdor__':    GITHUB+'drapdor.png',
 };
-async function fetchWikiImg(wiki,customKey){
-  const ck=customKey||wiki;
-  if(ck&&CUSTOM[ck]) return CUSTOM[ck];
+async function fetchWikiImg(wiki,ck){
+  const _k=ck||wiki;
+  if(_k&&CUSTOM[_k])return CUSTOM[_k];
   if(!wiki)return null;
   if(imgCache[wiki]!==undefined)return imgCache[wiki];
   imgCache[wiki]=null; // mark as loading
@@ -223,17 +223,17 @@ const POWERS=[
       ],
     ],
     events:[
-      { y:1515,lbl:'Maamora',name:"Victoire de la Maamora",per:'1515',customKey:'__maamora__',
+      { y:1515,lbl:'Maamora',customKey:'__maamora__',name:"Victoire de la Maamora",per:'1515',
         wiki:'https://fr.wikipedia.org/wiki/Bataille_de_la_Maamora_(1515)',
         desc:"Les Wattassides repoussent une tentative portugaise de s'emparer de la Mamora. Moment clé du roman « Je te donnerai Marrakech »."
       },
-      { y:1541,lbl:'Agadir',name:"Reprise d'Agadir",per:'1541',customKey:'__agadir__',wiki:'',
+      { y:1541,lbl:'Agadir',customKey:'__agadir__',name:"Reprise d'Agadir",per:'1541',wiki:'',
         desc:"Mohammed Echeykh arrache Agadir aux Portugais après trente ans d'occupation. Victoire stratégique capitale."
       },
-      { y:1549,lbl:'Prise de Fès',name:"Prise de Fès par les Zaydanides",per:'1549',customKey:'__safi__',wiki:'',
+      { y:1549,lbl:'Prise de Fès',customKey:'__safi__',name:"Prise de Fès par les Zaydanides",per:'1549',wiki:'',
         desc:"Mohammed Echeykh s'empare de Fès. Le Maroc est enfin unifié sous la bannière zaydanide."
       },
-      { y:1557,lbl:'Assassinat',name:"Assassinat de Mohammed Echeykh",per:'1557',customKey:'__assassinat__',
+      { y:1557,lbl:'Assassinat',customKey:'__assassinat__',name:"Assassinat de Mohammed Echeykh",per:'1557',
         wiki:'https://fr.wikipedia.org/wiki/Mohammed_ech-Cheikh',
         desc:"Assassiné par des janissaires ottomans dissimulés dans sa garde. Sa mort déclenche la longue rivalité saado-ottomane."
       },
@@ -314,7 +314,7 @@ const POWERS=[
         wiki:'https://fr.wikipedia.org/wiki/1492',
         desc:"Prise de Grenade (fin de la Reconquista), découverte des Amériques, expulsion des Juifs d'Espagne. Naissance d'un monde nouveau."
       },
-      { y:1525,lbl:'Pavie',name:"Bataille de Pavie",per:'1525',customKey:'__pavie__',
+      { y:1525,lbl:'Pavie',customKey:'__pavie__',name:"Bataille de Pavie",per:'1525',
         wiki:'https://fr.wikipedia.org/wiki/Bataille_de_Pavie',
         desc:"Charles Quint écrase François Ier, fait prisonnier. Cette défaite pousse le roi de France vers l'alliance franco-ottomane."
       },
@@ -363,7 +363,7 @@ const POWERS=[
       ],
     ],
     events:[
-      { y:1520,lbl:"Drap d'Or",name:"Camp du Drap d'Or",per:'1520',customKey:'__drapdor__',
+      { y:1520,lbl:"Drap d'Or",customKey:'__drapdor__',name:"Camp du Drap d'Or",per:'1520',
         wiki:"https://fr.wikipedia.org/wiki/Camp_du_Drap_d%27or",
         desc:"Rencontre fastueuse entre François Ier et Henri VIII. Deux semaines de fêtes et tournois."
       },
@@ -479,7 +479,7 @@ function buildRow(p,pi){
         const port=el('div','rb-portrait');
         port.dataset.wiki=ruler.wiki||'';
         const _rck=ruler.customKey||(ruler.wiki&&CUSTOM[ruler.wiki]?ruler.wiki:'');
-        if(_rck) port.dataset.custom=_rck;
+        if(_rck)port.dataset.custom=_rck;
         // Placeholder icon
         port.innerHTML=`<div class="rb-portrait-placeholder"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>`;
         bar.appendChild(port);
@@ -510,10 +510,10 @@ function buildRow(p,pi){
       evm.style.cssText=`left:${ex-5}px;top:${evtTop}px;width:44px`;
 
       // Event portrait vignette (for events with wiki)
-      if(evt.wiki){
+      if(evt.wiki||evt.customKey){
         const ep=el('div','ev-portrait');
-        ep.dataset.wiki=evt.wiki;
-        ep.innerHTML=`<img data-wiki="${evt.wiki}" style="display:none">`;
+        const _eck=evt.customKey||(evt.wiki&&CUSTOM[evt.wiki]?evt.wiki:'');
+        ep.innerHTML=`<img data-wiki="${evt.wiki||''}" ${_eck?`data-custom="${_eck}"`:''}  style="display:none">`;
         evm.appendChild(ep);
       }
 
@@ -537,26 +537,22 @@ function buildRow(p,pi){
 
 // ── IMAGE INJECTION ───────────────────────────────────
 async function prefetchAll(){
-  // A. Images custom GitHub
   function injectCustom(){
     document.querySelectorAll('.rb-portrait[data-custom]').forEach(port=>{
-      if(port.querySelector('img')) return;
-      const src=CUSTOM[port.dataset.custom];
-      if(!src) return;
+      if(port.querySelector('img'))return;
+      const src=CUSTOM[port.dataset.custom];if(!src)return;
       const img=document.createElement('img');
       img.src=src;
       img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(15%);position:absolute;inset:0';
       img.onload=()=>{port.innerHTML='';port.appendChild(img);};
     });
     document.querySelectorAll('.ev-portrait img[data-custom]').forEach(img=>{
-      if(img.src) return;
+      if(img.src)return;
       const src=CUSTOM[img.dataset.custom];
       if(src){img.src=src;img.onload=()=>{img.style.display='block';};}
     });
   }
-  injectCustom();
-  setTimeout(injectCustom,400);
-  setTimeout(injectCustom,1000);
+  injectCustom();setTimeout(injectCustom,400);setTimeout(injectCustom,1000);
   // Collect all unique wiki URLs
   const wikis=new Set();
   POWERS.forEach(p=>{
@@ -569,7 +565,7 @@ async function prefetchAll(){
       if(!src)return;
       // Inject into bars
       document.querySelectorAll(`.rb-portrait[data-wiki="${CSS.escape(wiki)}"]`).forEach(port=>{
-        if(port.dataset.custom||port.querySelector('img')) return;
+        if(port.dataset.custom||port.querySelector('img'))return;
         const img=document.createElement('img');
         img.src=src;
         img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(20%) contrast(1.05)';
