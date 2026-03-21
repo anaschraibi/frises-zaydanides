@@ -513,10 +513,14 @@ function buildRow(p,pi){
       evm.style.cssText=`left:${ex-5}px;top:${evtTop}px;width:44px`;
 
       // Event portrait vignette (for events with wiki)
-      if(evt.wiki){
+      if(evt.wiki||evt.customKey){
         const ep=el('div','ev-portrait');
-        ep.dataset.wiki=evt.wiki;
-        ep.innerHTML=`<img data-wiki="${evt.wiki}" style="display:none">`;
+        const _eck=evt.customKey||(evt.wiki&&CUSTOM[evt.wiki]?evt.wiki:'');
+        const _img=document.createElement('img');
+        _img.dataset.wiki=evt.wiki||'';
+        if(_eck)_img.dataset.custom=_eck;
+        _img.style.display='none';
+        ep.appendChild(_img);
         evm.appendChild(ep);
       }
 
@@ -541,17 +545,18 @@ function buildRow(p,pi){
 // ── IMAGE INJECTION ───────────────────────────────────
 function injectCustom(){
   document.querySelectorAll('.rb-portrait[data-custom]').forEach(function(port){
-    if(port.querySelector('img'))return;
+    if(port.dataset.injected)return;
     var src=CUSTOM[port.dataset.custom];if(!src)return;
+    port.dataset.injected='1';
     var img=document.createElement('img');
     img.src=src;
     img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(15%);position:absolute;inset:0';
     img.onload=function(){port.innerHTML='';port.appendChild(img);};
   });
   document.querySelectorAll('.ev-portrait img[data-custom]').forEach(function(img){
-    if(img.src)return;
+    if(img.dataset.injected)return;
     var src=CUSTOM[img.dataset.custom];
-    if(src){img.src=src;img.onload=function(){img.style.display='block';};}
+    if(src){img.dataset.injected='1';img.src=src;img.onload=function(){img.style.display='block';};}
   });
 }
 async function prefetchAll(){
