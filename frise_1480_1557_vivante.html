@@ -101,11 +101,10 @@ body{background:#f5f0e8;color:#1a1208;font-family:'Crimson Text',Georgia,serif;m
 .pft{font-size:.75rem;color:var(--text-f);font-style:italic}
 .pfl{color:var(--gold-d);text-decoration:none;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.1em}
 .pfl:hover{color:var(--gold-b)}
-
 #img-zoom{position:fixed;z-index:9000;pointer-events:none;display:none;flex-direction:column;align-items:center;filter:drop-shadow(0 8px 28px rgba(0,0,0,.5))}
 #img-zoom img{width:240px;height:300px;object-fit:cover;object-position:top center;border-radius:5px;border:2px solid var(--border2)}
 #img-zoom.landscape img{width:340px;height:220px;object-position:center}
-#img-zoom-cap{background:rgba(26,18,8,.85);color:#f0e8d0;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.08em;padding:5px 12px;border-radius:0 0 4px 4px;text-align:center;max-width:340px;line-height:1.4}
+#img-zoom-cap{background:rgba(26,18,8,.85);color:#f0e8d0;font-family:'Cinzel',serif;font-size:.58rem;padding:5px 12px;border-radius:0 0 4px 4px;text-align:center;max-width:340px}
 </style>
 </head>
 <body>
@@ -166,6 +165,7 @@ const CUSTOM={
   '__yahya__':      GITHUB+'yahya.png',
   '__maamora__':    GITHUB+'Maamora1.png',
   '__agadir__':     GITHUB+'capdegue.png',
+  '__fes__':        GITHUB+'Fes.png',
   '__safi__':       GITHUB+'SAFI.png',
   '__assassinat__': GITHUB+'eglise_safi.png',
   '__pavie__':      GITHUB+'Pavie.png',
@@ -192,6 +192,13 @@ async function fetchWikiImg(wiki,ck){
 const POWERS=[
   { id:'maroc',label:'MAROC',
     rows:[
+      [
+        { s:1480,e:1518,c:'#8a5808',lbl:"Yahya U’ Ta’fuft",sub:'†1518',customKey:'__yahya__',customKey:'__yahya__',
+          name:"Yahya U’ Ta’fuft",per:'c. 1480 – 1518',dyn:'Gouverneur wattasside de Salé-Rabat',
+          wiki:'',
+          desc:"Dernier gouverneur wattasside de la région de Salé et Rabat. Figure historique au cœur du roman « Je te donnerai Marrakech ». Mort en 1518, pris entre sa fidélité aux Wattassides en déclin, la pression zaydanide et les ambitions portugaises."
+        },
+      ],
       [
         { s:1480,e:1524,c:'#1555a0',lbl:'Mohammed Al-Burtughali',sub:'Wattasside',
           name:'Mohammed Al-Burtughali',per:'r. ~1472 – 1524',dyn:'Wattassides',
@@ -223,6 +230,7 @@ const POWERS=[
       ],
     ],
     events:[
+      {y:1508,lbl:'Safi occupée',customKey:'__safi__',name:"Safi occupée par le Portugal",per:'1508',wiki:'https://fr.wikipedia.org/wiki/Safi_(Maroc)',desc:"En 1508, les Portugais s'emparent de Safi, port stratégique de la côte atlantique marocaine, jusqu'en 1541."},
       { y:1515,lbl:'Maamora',customKey:'__maamora__',name:"Victoire de la Maamora",per:'1515',
         wiki:'https://fr.wikipedia.org/wiki/Bataille_de_la_Maamora_(1515)',
         desc:"Les Wattassides repoussent une tentative portugaise de s'emparer de la Mamora. Moment clé du roman « Je te donnerai Marrakech »."
@@ -230,7 +238,7 @@ const POWERS=[
       { y:1541,lbl:'Agadir',customKey:'__agadir__',name:"Reprise d'Agadir",per:'1541',wiki:'',
         desc:"Mohammed Echeykh arrache Agadir aux Portugais après trente ans d'occupation. Victoire stratégique capitale."
       },
-      { y:1549,lbl:'Prise de Fès',customKey:'__safi__',name:"Prise de Fès par les Zaydanides",per:'1549',wiki:'',
+      { y:1549,lbl:'Prise de Fès',customKey:'__fes__',name:"Prise de Fès par les Zaydanides",per:'1549',wiki:'',
         desc:"Mohammed Echeykh s'empare de Fès. Le Maroc est enfin unifié sous la bannière zaydanide."
       },
       { y:1557,lbl:'Assassinat',customKey:'__assassinat__',name:"Assassinat de Mohammed Echeykh",per:'1557',
@@ -387,13 +395,6 @@ const POWERS=[
           desc:"Esclave d'origine ukrainienne, devenue épouse légale de Soliman. Femme politique redoutable. Figure centrale des travaux de Jocelyne Dakhlia (Harems et Sultans)."
         },
       ],
-      [
-        { s:1480,e:1518,c:'#8a5808',lbl:"Yahya U' Ta'fuft",sub:'†1518',customKey:'__yahya__',
-          name:"Yahya U' Ta'fuft",per:'c. 1480 – 1518',dyn:'Gouverneur wattasside de Salé-Rabat',
-          wiki:'',
-          desc:"Dernier gouverneur wattasside de la région de Salé et Rabat. Figure historique au cœur du roman « Je te donnerai Marrakech ». Mort en 1518, pris entre sa fidélité aux Wattassides en déclin, la pression zaydanide et les ambitions portugaises."
-        },
-      ],
     ],
     events:[],
   },
@@ -423,10 +424,8 @@ function build(){
   POWERS.forEach((p,pi)=>tli.appendChild(buildRow(p,pi)));
   // Pre-fetch all images
   prefetchAll();
-  // Inject custom images once DOM is ready
-  setTimeout(injectCustom,200);
-  setTimeout(injectCustom,600);
-  setTimeout(injectCustom,1500);
+  setTimeout(injectCustom,300);
+  setTimeout(injectCustom,900);
 }
 
 function buildAxis(){
@@ -514,10 +513,10 @@ function buildRow(p,pi){
       evm.style.cssText=`left:${ex-5}px;top:${evtTop}px;width:44px`;
 
       // Event portrait vignette (for events with wiki)
-      if(evt.wiki||evt.customKey){
+      if(evt.wiki){
         const ep=el('div','ev-portrait');
-        const _eck=evt.customKey||(evt.wiki&&CUSTOM[evt.wiki]?evt.wiki:'');
-        ep.innerHTML=`<img data-wiki="${evt.wiki||''}" ${_eck?`data-custom="${_eck}"`:''}  style="display:none">`;
+        ep.dataset.wiki=evt.wiki;
+        ep.innerHTML=`<img data-wiki="${evt.wiki}" style="display:none">`;
         evm.appendChild(ep);
       }
 
@@ -540,26 +539,22 @@ function buildRow(p,pi){
 }
 
 // ── IMAGE INJECTION ───────────────────────────────────
-  // injectCustom is global
-
 function injectCustom(){
-  document.querySelectorAll('.rb-portrait[data-custom]').forEach(port=>{
+  document.querySelectorAll('.rb-portrait[data-custom]').forEach(function(port){
     if(port.querySelector('img'))return;
-    const src=CUSTOM[port.dataset.custom];if(!src)return;
-    const img=document.createElement('img');
+    var src=CUSTOM[port.dataset.custom];if(!src)return;
+    var img=document.createElement('img');
     img.src=src;
     img.style.cssText='width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(15%);position:absolute;inset:0';
-    img.onload=()=>{port.innerHTML='';port.appendChild(img);};
+    img.onload=function(){port.innerHTML='';port.appendChild(img);};
   });
-  document.querySelectorAll('.ev-portrait img[data-custom]').forEach(img=>{
+  document.querySelectorAll('.ev-portrait img[data-custom]').forEach(function(img){
     if(img.src)return;
-    const src=CUSTOM[img.dataset.custom];
-    if(src){img.src=src;img.onload=()=>{img.style.display='block';};}
+    var src=CUSTOM[img.dataset.custom];
+    if(src){img.src=src;img.onload=function(){img.style.display='block';};}
   });
 }
-
 async function prefetchAll(){
-  // Custom images injected after build() creates the DOM
   // Collect all unique wiki URLs
   const wikis=new Set();
   POWERS.forEach(p=>{
@@ -640,44 +635,21 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
 build();
 </script>
-
 <div id="img-zoom"><img id="img-zoom-img" src="" alt=""><div id="img-zoom-cap"></div></div>
 <script>
 (function(){
-  const zb=document.getElementById('img-zoom');
-  const zi=document.getElementById('img-zoom-img');
-  const zc=document.getElementById('img-zoom-cap');
-  let zt;
-  function show(src,name,land,e){
-    clearTimeout(zt);if(!src)return;
-    zi.src=src;zc.textContent=name;
-    zb.className=land?'landscape':'';
-    zb.style.display='flex';move(e);
-  }
-  function move(e){
-    const W=window.innerWidth,H=window.innerHeight;
-    const bw=zb.className==='landscape'?344:244,bh=zb.className==='landscape'?240:320;
-    let x=e.clientX+18,y=e.clientY-bh/2;
-    if(x+bw>W-10)x=e.clientX-bw-18;
-    if(y<10)y=10;if(y+bh>H-10)y=H-bh-10;
-    zb.style.left=x+'px';zb.style.top=y+'px';
-  }
-  function hide(){zt=setTimeout(()=>{zb.style.display='none';},150);}
-  document.addEventListener('mouseover',e=>{
-    const bar=e.target.closest('.rb');
-    const evm=e.target.closest('.evm');
-    if(bar){
-      const p=bar.querySelector('.rb-portrait img');
-      if(p&&p.src)show(p.src,bar.title||'',p.naturalWidth>p.naturalHeight,e);
-      else hide();
-    } else if(evm){
-      const p=evm.querySelector('.ev-portrait img');
-      if(p&&p.src)show(p.src,evm.querySelector('.evtxt')?.textContent||'',p.naturalWidth>p.naturalHeight,e);
-      else hide();
-    } else hide();
+  var zb=document.getElementById('img-zoom'),zi=document.getElementById('img-zoom-img'),zc=document.getElementById('img-zoom-cap'),zt;
+  function show(src,name,land,e){clearTimeout(zt);if(!src)return;zi.src=src;zc.textContent=name;zb.className=land?'landscape':'';zb.style.display='flex';move(e);}
+  function move(e){var W=window.innerWidth,H=window.innerHeight,bw=zb.className==='landscape'?344:244,bh=zb.className==='landscape'?240:320,x=e.clientX+18,y=e.clientY-bh/2;if(x+bw>W-10)x=e.clientX-bw-18;if(y<10)y=10;if(y+bh>H-10)y=H-bh-10;zb.style.left=x+'px';zb.style.top=y+'px';}
+  function hide(){zt=setTimeout(function(){zb.style.display='none';},150);}
+  document.addEventListener('mouseover',function(e){
+    var bar=e.target.closest('.rb'),evm=e.target.closest('.evm');
+    if(bar){var p=bar.querySelector('.rb-portrait img');if(p&&p.src)show(p.src,bar.title||'',p.naturalWidth>p.naturalHeight,e);else hide();}
+    else if(evm){var p=evm.querySelector('.ev-portrait img');if(p&&p.src)show(p.src,(evm.querySelector('.evtxt')||{}).textContent||'',p.naturalWidth>p.naturalHeight,e);else hide();}
+    else hide();
   });
-  document.addEventListener('mousemove',e=>{if(zb.style.display==='flex')move(e);});
-  document.addEventListener('mouseout',e=>{if(!e.target.closest('.rb')&&!e.target.closest('.evm'))hide();});
+  document.addEventListener('mousemove',function(e){if(zb.style.display==='flex')move(e);});
+  document.addEventListener('mouseout',function(e){if(!e.target.closest('.rb')&&!e.target.closest('.evm'))hide();});
 })();
 </script>
 </body>
